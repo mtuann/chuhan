@@ -6,7 +6,7 @@ export const DONATE = { name: 'NGUYEN MINH TUAN', bank: 'Techcombank', number: '
 /** Đường dẫn ảnh mã VietQR trong site (ghép với base bằng `url`). */
 export const DONATE_QR = 'img/ung-ho-vietqr.png';
 export const DONATE_QR_ALT = `Mã VietQR chuyển khoản ${DONATE.bank}, chủ tài khoản ${DONATE.name}, số tài khoản ${DONATE.number}`;
-const EMAIL_B64 = 'dHJ1Y3Z5dHJhbjI1QGdtYWlsLmNvbQ==';
+const EMAIL_B64 = 'dmlzaGM2QGdtYWlsLmNvbQ==';
 
 /**
  * Gắn email vào các liên kết `a[data-email]` (`data-email="text"` thì hiện cả địa chỉ) và cho các nút
