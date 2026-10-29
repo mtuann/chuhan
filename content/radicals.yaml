@@ -1,0 +1,15 @@
+# Tên gọi khác của một số bộ thủ (hiện trên trang chữ). Chỉ ghi tên có nguồn, không tự đặt tên.
+# Số bộ, dạng biến thể lấy từ Unicode; âm Hán Việt của chữ bộ lấy từ bảng Hán Việt (xem scripts/data/radicals.ts).
+source: Wikipedia tiếng Việt, bài "Bộ thủ Khang Hy" (CC BY-SA 4.0)
+status: draft
+by: ai
+names:
+  - n: 9
+    form: 亻
+    aka: nhân đứng
+  - n: 9
+    form: 𠆢
+    aka: nhân nón
+  - n: 10
+    form: 儿
+    aka: nhân đi

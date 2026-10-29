@@ -1,0 +1,261 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { url } from '../../../lib/url';
+
+const btn = 'inline-flex min-h-11 cursor-pointer items-center justify-center gap-2 rounded-lg border border-line px-4 text-sm font-semibold hover:border-accent disabled:cursor-wait disabled:opacity-60';
+const btnPrimary = 'inline-flex min-h-11 cursor-pointer items-center justify-center gap-2 rounded-lg bg-accent px-4 text-sm font-semibold text-accent-ink disabled:cursor-wait disabled:opacity-60';
+const btnDanger = 'inline-flex min-h-11 cursor-pointer items-center justify-center gap-2 rounded-lg bg-t1 px-4 text-sm font-semibold text-white disabled:cursor-wait disabled:opacity-60';
+const card = 'rounded-2xl border border-line bg-card p-5';
+---
+
+<Base title="Sao lưu dữ liệu" tab="toi">
+  <h1 class="text-2xl font-semibold">Sao lưu dữ liệu</h1>
+  <p class="mt-2 text-sm text-muted">
+    Bản sao lưu gồm toàn bộ dữ liệu trên máy này: từ đã đánh dấu và câu gặp từ, chữ đã tập viết, lượt gõ và kỷ lục,
+    ghi nhớ của bạn, cài đặt. File được nén gzip (.json.gz), giữ lại để chuyển sang máy khác.
+  </p>
+
+  <section aria-labelledby="xuat" class={"mt-6 space-y-3 " + card}>
+    <h2 id="xuat" class="font-semibold">Xuất dữ liệu</h2>
+    <p class="text-sm text-muted">Tải toàn bộ dữ liệu xuống thành một file .json.gz.</p>
+    <div class="flex flex-wrap gap-2">
+      <button id="btn-export" type="button" class={btnPrimary}>Tải xuống bản sao lưu</button>
+    </div>
+    <p id="export-status" class="text-sm text-muted" role="status" aria-live="polite"></p>
+  </section>
+
+  <section aria-labelledby="nhap" class={"mt-6 space-y-3 " + card}>
+    <h2 id="nhap" class="font-semibold">Nhập dữ liệu</h2>
+    <p class="text-sm text-muted">
+      Chọn file sao lưu (.json.gz, hoặc .json cũ) đã xuất trước đó. Mặc định app <strong>gộp</strong> dữ liệu của file vào
+      máy này, không xoá gì: dùng được để khôi phục, hoặc để gom dữ liệu từ hai máy.
+    </p>
+    <div class="flex flex-wrap gap-2">
+      <label for="file-import" class={btn}>
+        Chọn file sao lưu (.json.gz / .json)
+      </label>
+      <input id="file-import" type="file" accept=".json.gz,.gz,.json,application/gzip,application/json" class="sr-only" />
+    </div>
+    <p id="import-message" class="text-sm" role="alert" aria-live="assertive"></p>
+
+    <div id="import-preview" class="hidden space-y-3 rounded-xl border border-line p-4">
+      <h3 class="text-sm font-semibold">So sánh máy này với file</h3>
+      <table class="w-full text-sm">
+        <thead>
+          <tr class="text-left text-muted">
+            <th class="py-1 font-normal"></th>
+            <th class="py-1 font-semibold">Máy này</th>
+            <th class="py-1 font-semibold">File</th>
+          </tr>
+        </thead>
+        <tbody id="import-compare"></tbody>
+      </table>
+      <p id="import-newer" class="text-sm text-muted"></p>
+      <div class="flex flex-wrap gap-2">
+        <button id="btn-merge" type="button" class={btnPrimary}>Gộp vào máy này</button>
+        <button id="btn-cancel" type="button" class={btn}>Huỷ</button>
+      </div>
+      <p class="text-sm text-muted">
+        Gộp: thêm từ đã đánh dấu, lượt tập viết, lượt gõ… của file mà máy chưa có; giữ cài đặt và các ghi nhớ mới hơn của máy
+        này. Nhập cùng một file hai lần không sinh dữ liệu trùng.
+      </p>
+      <details id="replace-box" class="rounded-xl border border-line p-3 text-sm">
+        <summary class="cursor-pointer font-semibold">Thay thế toàn bộ dữ liệu trên máy bằng file</summary>
+        <p class="mt-2">
+          Mọi dữ liệu trên máy này sẽ bị <strong>xoá</strong> và thay bằng dữ liệu của file. Trước khi thay, app tự tải
+          xuống một bản sao lưu của máy này để bạn lấy lại được.
+        </p>
+        <button id="btn-replace" type="button" class={"mt-3 " + btnDanger}>Tải bản sao lưu của máy rồi thay thế</button>
+      </details>
+      <p id="import-status" class="text-sm" role="status" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <p class="mt-6 text-sm text-muted">
+    <a href={url('toi/')} class="underline underline-offset-4 hover:text-ink">← Về trang Tôi</a>
+  </p>
+  <noscript><p class="text-t1">Cần bật JavaScript để xuất/nhập dữ liệu.</p></noscript>
+</Base>
+
+<script>
+  import { backupFilename, summarize, validateBackup, type BackupPayload, type BackupSummary } from '../../../lib/backup';
+  // Đọc/ghi IndexedDB (kéo Dexie + store SRS) nạp lazy để JS lúc đầu của trang nhẹ.
+  const loadIo = () => import('../../../lib/backup-io');
+
+  const $ = (id: string) => document.getElementById(id) as HTMLElement;
+  const exportBtn = $('btn-export') as HTMLButtonElement;
+  const exportStatus = $('export-status');
+  const fileInput = $('file-import') as HTMLInputElement;
+  const importMessage = $('import-message');
+  const importPreview = $('import-preview');
+  const importCompare = $('import-compare');
+  const importNewer = $('import-newer');
+  const mergeBtn = $('btn-merge') as HTMLButtonElement;
+  const replaceBtn = $('btn-replace') as HTMLButtonElement;
+  const replaceBox = $('replace-box') as HTMLDetailsElement;
+  const cancelBtn = $('btn-cancel') as HTMLButtonElement;
+  const importStatus = $('import-status');
+
+  const fmtDate = (ms: number) => new Date(ms).toLocaleString('vi-VN');
+  let pending: BackupPayload | null = null;
+
+  function showError(msg: string): void {
+    importMessage.textContent = msg;
+    importMessage.className = 'text-sm font-semibold text-t1';
+  }
+
+  /* ---------- xuất ---------- */
+
+  /** Gom dữ liệu trên máy, nén và tải xuống. Trả về payload đã xuất và ghi chú dung lượng. */
+  async function downloadBackup(onStep: (msg: string) => void): Promise<{ payload: BackupPayload; sizeNote: string }> {
+    const { exportBackup, exportBackupBlob, canCompress, formatBytes } = await loadIo();
+    const payload = await exportBackup();
+    let blob: Blob;
+    let filename: string;
+    let sizeNote: string;
+    if (canCompress()) {
+      onStep('Đang nén dữ liệu…');
+      const zipped = await exportBackupBlob(payload);
+      blob = zipped.blob;
+      filename = backupFilename();
+      sizeNote = `Dung lượng ước tính: ~${formatBytes(zipped.gzippedBytes)} (đã nén gzip, gốc ~${formatBytes(zipped.rawBytes)}).`;
+    } else {
+      // fallback: trình duyệt cũ không có CompressionStream thì tải JSON thường
+      blob = new Blob([JSON.stringify(payload)], { type: 'application/json' });
+      filename = backupFilename(new Date(), false);
+      sizeNote = `Trình duyệt không hỗ trợ nén gzip nên tải file JSON thường (~${formatBytes(blob.size)}).`;
+    }
+    onStep(`${sizeNote} Đang tải xuống…`);
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 60_000);
+    return { payload, sizeNote };
+  }
+
+  exportBtn.addEventListener('click', async () => {
+    exportBtn.disabled = true;
+    exportStatus.textContent = 'Đang gom dữ liệu…';
+    try {
+      const { payload, sizeNote } = await downloadBackup((m) => (exportStatus.textContent = m));
+      const s = summarize(payload.tables);
+      exportStatus.textContent = `${sizeNote} Đã tạo bản sao lưu: ${s.words} từ, ${s.chars} chữ đã tập, ${s.typing} lượt gõ (${fmtDate(payload.exportedAt)}).`;
+    } catch (err) {
+      console.error(err);
+      exportStatus.textContent = 'Không xuất được dữ liệu. Hãy thử lại.';
+    } finally {
+      exportBtn.disabled = false;
+    }
+  });
+
+  /* ---------- nhập ---------- */
+
+  function resetImport(clearFile = true): void {
+    pending = null;
+    if (clearFile) fileInput.value = '';
+    importPreview.classList.add('hidden');
+    importMessage.textContent = '';
+    importMessage.className = 'text-sm';
+    importStatus.textContent = '';
+    importStatus.className = 'text-sm';
+    importCompare.innerHTML = '';
+    importNewer.textContent = '';
+    replaceBox.open = false;
+  }
+
+  cancelBtn.addEventListener('click', () => resetImport());
+
+  fileInput.addEventListener('change', async () => {
+    // lấy file TRƯỚC khi dọn: xoá `fileInput.value` làm mất luôn file vừa chọn
+    const file = fileInput.files?.[0];
+    resetImport(false);
+    if (!file) return;
+    let parsed: unknown;
+    try {
+      const { readBackupFile } = await loadIo();
+      // tự nhận diện .json.gz (giải nén) hay .json cũ (đọc thẳng), rồi parse JSON
+      parsed = await readBackupFile(file);
+    } catch (err) {
+      showError(err instanceof Error ? err.message : 'File không phải JSON hợp lệ. Hãy chọn đúng file sao lưu đã xuất từ trang này.');
+      return;
+    }
+    try {
+      pending = validateBackup(parsed);
+    } catch (err) {
+      showError(err instanceof Error ? err.message : 'File sao lưu không hợp lệ.');
+      return;
+    }
+    let mine: BackupSummary | null = null;
+    try {
+      const { localSummary } = await loadIo();
+      mine = await localSummary();
+    } catch {
+      // không đọc được dữ liệu trên máy: vẫn cho nhập, chỉ không so sánh
+    }
+    const theirs = summarize(pending.tables);
+    const day = (ms: number) => (ms ? new Date(ms).toLocaleDateString('vi-VN') : '–');
+    const rows: [string, (s: BackupSummary) => string][] = [
+      ['Từ đã đánh dấu', (s) => String(s.words)],
+      ['Chữ đã tập viết', (s) => String(s.chars)],
+      ['Lượt gõ', (s) => String(s.typing)],
+      ['Ghi nhớ', (s) => String(s.notes)],
+      ['Lần gần nhất', (s) => day(s.lastAt)],
+    ];
+    importCompare.innerHTML = rows
+      .map(([k, f]) => `<tr class="border-t border-line"><th scope="row" class="py-1 text-left font-normal text-muted">${k}</th><td class="py-1">${mine ? f(mine) : '–'}</td><td class="py-1 font-semibold">${f(theirs)}</td></tr>`)
+      .join('');
+    const exported = `File xuất lúc ${fmtDate(pending.exportedAt)}.`;
+    importNewer.textContent = !mine
+      ? exported
+      : theirs.lastAt > mine.lastAt
+        ? `${exported} File có dữ liệu mới hơn máy này.`
+        : theirs.lastAt < mine.lastAt
+          ? `${exported} Máy này có dữ liệu mới hơn file: nên chọn Gộp để không mất dữ liệu đó.`
+          : `${exported} Lần gần nhất trùng nhau.`;
+    importPreview.classList.remove('hidden');
+  });
+
+  const SUMMARY_TABLES: [string, string][] = [
+    ['words', 'từ'],
+    ['attempts', 'lượt luyện'],
+    ['notes', 'ghi nhớ'],
+    ['settings', 'cài đặt'],
+  ];
+
+  async function runImport(mode: 'merge' | 'replace'): Promise<void> {
+    if (!pending) return;
+    mergeBtn.disabled = true;
+    replaceBtn.disabled = true;
+    importStatus.className = 'text-sm';
+    try {
+      if (mode === 'replace') {
+        importStatus.textContent = 'Đang tải bản sao lưu của máy này…';
+        await downloadBackup((m) => (importStatus.textContent = m));
+      }
+      importStatus.textContent = mode === 'merge' ? 'Đang gộp dữ liệu…' : 'Đang thay thế dữ liệu…';
+      const { importBackup } = await loadIo();
+      const res = await importBackup(pending, mode);
+      const s = res.stats as unknown as Record<string, { added: number; updated: number }>;
+      const parts = SUMMARY_TABLES.flatMap(([k, label]) => (s[k]?.added ? [`${s[k].added} ${label}`] : []));
+      importStatus.textContent =
+        mode === 'merge'
+          ? `Đã gộp: ${parts.length ? 'thêm ' + parts.join(', ') : 'máy này đã có đủ dữ liệu của file'}. Trang sẽ tải lại sau vài giây…`
+          : `Đã thay thế: ${s.words?.added ?? 0} từ, ${s.attempts?.added ?? 0} lượt luyện. Trang sẽ tải lại sau vài giây…`;
+      importStatus.className = 'text-sm font-semibold text-t2';
+      setTimeout(() => window.location.reload(), 2500);
+    } catch (err) {
+      console.error(err);
+      importStatus.textContent = 'Không nhập được dữ liệu. Dữ liệu trên máy không bị thay đổi.';
+      importStatus.className = 'text-sm font-semibold text-t1';
+    } finally {
+      mergeBtn.disabled = false;
+      replaceBtn.disabled = false;
+    }
+  }
+
+  mergeBtn.addEventListener('click', () => void runImport('merge'));
+  replaceBtn.addEventListener('click', () => void runImport('replace'));
+</script>

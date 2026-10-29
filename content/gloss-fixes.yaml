@@ -1,0 +1,11 @@
+# Sửa nghĩa sai trong dữ liệu (nguồn CVDICT do máy dịch từ CC-CEDICT, chưa duyệt).
+# Khớp theo chữ (không phân biệt cách đọc): áp dụng cho cả từ HSK (trường vi, m)
+# và mục từ điển mở rộng.
+# - drop: bỏ các nghĩa sai hoặc lẫn tiếng Anh, giữ các nghĩa còn lại.
+# - vi: thay toàn bộ nghĩa tiếng Việt bằng danh sách cho trước.
+# Mỗi mục cần có ít nhất một trong hai khóa. validate.ts kiểm tra hồi quy:
+# nghĩa đã bỏ mà xuất hiện lại, hoặc vi khác danh sách này → LỖI, dừng pipeline.
+"好心人":
+  drop: ["người Samaritan tốt"]
+"好运":
+  vi: ["vận may"]

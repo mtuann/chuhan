@@ -1,0 +1,159 @@
+# Kiểm tra và deploy trong một workflow.
+#
+#   build ──┬── e2e (2 shard song song) ──┐
+#   check ──┘ (chạy song song với build) ─┴── deploy (chỉ khi push main, mọi job xanh)
+#
+# - build: dữ liệu, build một lần, ngân sách hiệu năng; dist/ được đóng gói cho e2e và deploy dùng lại (không build lại).
+# - check: kiểm tra kiểu (astro check) và test đơn vị.
+# - e2e: Playwright trong image chính thức (có sẵn trình duyệt, không phải cài), chia 2 shard.
+# - deploy: đẩy đúng bản dist/ đã qua test lên nhánh gh-pages (giữ các bản xem trước PR và data/ cũ).
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# push mới lên cùng nhánh PR thì huỷ lượt chạy cũ; trên main thì để chạy hết (mỗi lượt có thể deploy)
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    outputs:
+      playwright: ${{ steps.pw.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Cache nguồn dữ liệu (theo sources.lock.json)
+        uses: actions/cache@v4
+        with:
+          path: .cache/sources
+          key: sources-${{ hashFiles('sources.lock.json') }}
+      - name: Dữ liệu (npm run data)
+        run: npm run data
+      - name: Bản tóm tắt dữ liệu đã commit khớp kết quả pipeline
+        run: |
+          if ! git diff --exit-code -- scripts/data/summary.json src/lib/tone-table.ts; then
+            echo "::error::Dữ liệu sinh ra khác bản đã commit. Chạy 'npm run data' rồi commit scripts/data/summary.json và src/lib/tone-table.ts."
+            exit 1
+          fi
+      - name: Báo cáo khác biệt dữ liệu so với nhánh đích
+        if: github.event_name == 'pull_request'
+        run: |
+          git fetch --depth=1 origin "${{ github.base_ref }}"
+          {
+            echo "### Khác biệt dữ liệu so với ${{ github.base_ref }}"
+            echo '```diff'
+            git diff FETCH_HEAD -- sources.lock.json scripts/data/summary.json src/lib/tone-table.ts | head -400
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+      - name: Build
+        run: npm run build
+        env:
+          PUBLIC_BUILD: ${{ github.sha }}
+      - run: npm run budgets
+      - name: Đóng gói dist/
+        run: |
+          touch dist/.nojekyll
+          tar -czf dist.tgz dist
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist.tgz
+          compression-level: 0
+          retention-days: 3
+      - name: Phiên bản Playwright (để chọn image cho e2e)
+        id: pw
+        run: echo "version=$(node -p "require('./node_modules/@playwright/test/package.json').version")" >> "$GITHUB_OUTPUT"
+
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Cache nguồn dữ liệu (theo sources.lock.json)
+        uses: actions/cache@v4
+        with:
+          path: .cache/sources
+          key: sources-${{ hashFiles('sources.lock.json') }}
+      - run: npm run data
+      - run: npm run check
+      - run: npm test
+
+  e2e:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    container:
+      image: mcr.microsoft.com/playwright:v${{ needs.build.outputs.playwright }}-noble
+      options: --user 1001
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+      - run: tar -xzf dist.tgz
+      - name: Test giao diện (shard ${{ matrix.shard }}/2)
+        run: npx playwright test --shard=${{ matrix.shard }}/2
+        env:
+          CI: '1'
+      - name: Ảnh chụp và trace khi lỗi
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-results-${{ matrix.shard }}
+          path: test-results/
+          retention-days: 7
+
+  deploy:
+    needs: [build, check, e2e]
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    concurrency:
+      group: deploy-gh-pages
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+      - run: tar -xzf dist.tgz
+      - uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: dist
+          branch: gh-pages
+          # Giữ các bản xem trước PR. Giữ cả data/ cũ: tệp dữ liệu có băm trong tên, app phiên bản cũ
+          # (service worker chưa cập nhật) vẫn tải được tệp nó trỏ tới. Muốn dọn: chạy tay một lần không có dòng data/.
+          clean-exclude: |
+            pr-preview/
+            data/
+          force: false

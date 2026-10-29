@@ -1,0 +1,9 @@
+---
+import Base from '../../layouts/Base.astro';
+import WritingApp from '../../app/writing/WritingApp';
+---
+
+<Base title="Tập viết" tab="viet" description="Tập viết chữ Hán từng nét: xem nét, tô theo nét mờ, tự viết và máy chấm. 1.200 chữ viết tay HSK 3.0 hoặc chữ tự chọn.">
+  <WritingApp client:only="react" />
+  <noscript><p class="text-t1">Cần bật JavaScript để tập viết.</p></noscript>
+</Base>

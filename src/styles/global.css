@@ -1,0 +1,124 @@
+@import 'tailwindcss';
+
+/* Màu theo chủ đề: giá trị thật đổi theo sáng/tối, Tailwind dùng qua tên token. */
+:root {
+  --paper: #fcfcfb;
+  --ink: #1a1a19;
+  --muted: #5f5e59;
+  --card: #ffffff;
+  --line: #e4e2dc;
+  --accent: #9a6b12; /* vàng mực: khác hẳn 4 màu thanh */
+  --accent-ink: #ffffff;
+  --accent-soft: #f6eedd;
+  --t1: #d43c11;
+  --t2: #0d844c;
+  --t3: #02629c;
+  --t4: #8053d8;
+  --t5: #6b6a65;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #1a1a19;
+    --ink: #f2f1ed;
+    --muted: #a9a79f;
+    --card: #232321;
+    --line: #34332f;
+    --accent: #e0b252;
+    --accent-ink: #1a1a19;
+    --accent-soft: #3a311f;
+    --t1: #f25451;
+    --t2: #029e72;
+    --t3: #0da1de;
+    --t4: #8170f8;
+    --t5: #9a9890;
+    color-scheme: dark;
+  }
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-card: var(--card);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-soft: var(--accent-soft);
+  --color-t1: var(--t1);
+  --color-t2: var(--t2);
+  --color-t3: var(--t3);
+  --color-t4: var(--t4);
+  --color-t5: var(--t5);
+  --font-sans: 'Be Vietnam Pro', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-han: 'PingFang SC', 'Hiragino Sans GB', 'Noto Sans CJK SC', 'Noto Sans SC', 'Source Han Sans SC', 'Microsoft YaHei', sans-serif;
+}
+
+html {
+  background: var(--paper);
+  color: var(--ink);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-sans);
+  line-height: 1.55;
+}
+
+:lang(zh-CN),
+.han {
+  font-family: var(--font-han);
+}
+
+/* Con trỏ của ô gõ tiếng Trung khi nằm giữa các chữ đã gõ: vạch màu nhấp nháy (ô đang được chọn). */
+.ime-caret {
+  border-left: 2px solid transparent;
+}
+.ime-caret:focus {
+  border-left-color: var(--accent);
+  animation: ime-caret-blink 1.06s step-end infinite;
+}
+@keyframes ime-caret-blink {
+  50% {
+    border-left-color: transparent;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ime-caret:focus {
+    animation: none;
+  }
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* In (trang In 田字格): chỉ in tờ giấy, khổ A4 dọc, lề 15 mm, màu đen trắng kể cả khi máy đang ở giao diện tối. */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 15mm;
+  }
+  html,
+  body {
+    background: #fff !important;
+    color: #000 !important;
+  }
+  nav,
+  [data-print-hide] {
+    display: none !important;
+  }
+  main {
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  .print-sheet {
+    border: 0 !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+  }
+}

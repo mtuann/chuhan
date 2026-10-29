@@ -1,0 +1,9 @@
+---
+import Base from '../../../layouts/Base.astro';
+import PrintApp from '../../../app/writing/PrintApp';
+---
+
+<Base title="In 田字格" tab="viet" description="Tạo trang tập viết 田字格 khổ A4: thứ tự nét, ô tô mờ, ô trống, theo cấp HSK hoặc chữ tự chọn.">
+  <PrintApp client:only="react" />
+  <noscript><p class="text-t1">Cần bật JavaScript để tạo trang in.</p></noscript>
+</Base>

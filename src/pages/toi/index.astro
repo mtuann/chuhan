@@ -1,0 +1,57 @@
+---
+import Base from '../../layouts/Base.astro';
+import MineApp from '../../app/mine/MineApp';
+import { DONATE, DONATE_QR, DONATE_QR_ALT } from '../../lib/contact';
+import { url } from '../../lib/url';
+
+const links = [
+  { name: 'Cài đặt', desc: 'Cấp đã biết, cách hiện pinyin và Hán Việt khi đọc, giọng đọc', href: url('toi/cai-dat/') },
+  { name: 'Sao lưu dữ liệu', desc: 'Xuất dữ liệu trên máy ra file để giữ hoặc chuyển sang máy khác; nhập lại khi cần', href: url('toi/sao-luu/') },
+  { name: 'Giới thiệu', desc: 'App làm gì, dùng thế nào, góp ý', href: url('gioi-thieu/') },
+  { name: 'Nguồn & giấy phép', desc: 'Dữ liệu mở dùng trong app và điều kiện sử dụng', href: url('ban-quyen/') },
+];
+const btn = 'inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border border-line px-4 text-sm font-semibold hover:border-accent';
+---
+
+<Base title="Tôi" tab="toi">
+  <h1 class="text-2xl font-semibold">Tôi</h1>
+  <p class="mt-1 mb-6 text-sm text-muted">Mọi thứ lưu trên máy này, không cần tài khoản.</p>
+  <MineApp client:only="react" />
+  <noscript><p class="text-t1">Cần bật JavaScript để xem dữ liệu của bạn.</p></noscript>
+
+  <ul class="mt-10 grid gap-3 sm:grid-cols-2">
+    {
+      links.map((l) => (
+        <li>
+          <a href={l.href} class="block h-full rounded-2xl border border-line bg-card p-4 hover:border-accent">
+            <h2 class="font-semibold">{l.name}</h2>
+            <p class="text-sm text-muted">{l.desc}</p>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+
+  <section aria-labelledby="ung-ho" class="mt-8 rounded-2xl border border-line bg-card p-5">
+    <h2 id="ung-ho" class="font-semibold">Ủng hộ</h2>
+    <p class="text-sm text-muted">App miễn phí, không quảng cáo. Thấy hữu ích thì mời một ly cà phê nhé!</p>
+    <div class="mt-3 flex items-start gap-4">
+      <a href={url('gioi-thieu/#ung-ho')} class="block w-28 shrink-0 rounded-xl border border-line bg-white p-1 hover:border-accent" title="Xem mã QR lớn">
+        <img src={url(DONATE_QR)} width="652" height="804" alt={DONATE_QR_ALT} class="block h-auto w-full rounded-lg" loading="lazy" decoding="async" />
+      </a>
+      <div class="min-w-0 space-y-2 text-sm">
+        <p>
+          <span class="block font-semibold">{DONATE.bank}</span>
+          <span class="block">{DONATE.name}</span>
+          <span class="block font-mono text-base font-semibold tabular-nums">{DONATE.number}</span>
+        </p>
+        <button type="button" data-copy={DONATE.number.replace(/\s/g, '')} class={btn}>Chép số tài khoản</button>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  import { wireContact } from '../../lib/contact';
+  wireContact();
+</script>

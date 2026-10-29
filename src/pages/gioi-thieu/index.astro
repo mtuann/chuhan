@@ -1,0 +1,110 @@
+---
+// Giới thiệu: góp ý (email), ủng hộ (mã VietQR). Thông tin dùng chung với tab Tôi: src/lib/contact.ts.
+import Base from '../../layouts/Base.astro';
+import { DONATE, DONATE_QR, DONATE_QR_ALT } from '../../lib/contact';
+import { url } from '../../lib/url';
+
+const qr = url(DONATE_QR);
+const account = DONATE;
+---
+
+<Base title="Giới thiệu" tab="toi">
+  <h1 class="text-2xl font-semibold">Giới thiệu & góp ý</h1>
+  <p class="mt-2 text-muted">
+    Chữ Hán là bộ công cụ nhỏ, miễn phí cho người Việt học tiếng Trung, tập trung vào cách nhìn một chữ Hán: pinyin đọc theo ngữ cảnh, màu theo
+    thanh điệu, âm Hán Việt, nét chữ. Không cần tài khoản, không quảng cáo, dùng được cả khi mất mạng; mọi thứ lưu ngay trên máy bạn.
+  </p>
+  <ul class="mt-4 grid gap-2 text-sm sm:grid-cols-2">
+    <li class="rounded-xl border border-line bg-card p-3"><a class="font-semibold underline" href={url()}>Đọc</a>: dán một đoạn tiếng Trung bất kỳ, chạm từng từ để tra, đánh dấu từ đang học.</li>
+    <li class="rounded-xl border border-line bg-card p-3"><a class="font-semibold underline" href={url('viet/')}>Viết</a>: xem từng nét, tô theo nét mờ, tự viết và máy chấm; in giấy 田字格.</li>
+    <li class="rounded-xl border border-line bg-card p-3"><a class="font-semibold underline" href={url('go/')}>Gõ</a>: bộ gõ pinyin ngay trên trang, gợi ý chữ kèm Hán Việt để chọn đúng chữ cùng âm.</li>
+    <li class="rounded-xl border border-line bg-card p-3"><a class="font-semibold underline" href={url("am/")}>Âm</a>: bảng pinyin có tiếng người thật, ghi chú các âm khó với người Việt.</li>
+  </ul>
+
+  <section id="gop-y" aria-labelledby="gop-y-h" class="mt-8 scroll-mt-6 rounded-2xl border border-line bg-card p-5">
+    <h2 id="gop-y-h" class="text-lg font-semibold">Góp ý, báo lỗi</h2>
+    <p class="mt-1">Nếu có phản hồi hoặc góp ý xây dựng, xin liên hệ:</p>
+    <p class="mt-2 text-lg font-semibold break-all">
+      <a data-email="text" class="text-accent underline underline-offset-4" href="#gop-y">(bật JavaScript để hiện địa chỉ email)</a>
+    </p>
+    <div class="mt-3 flex flex-wrap gap-2">
+      <a
+        data-email="button"
+        href="#gop-y"
+        class="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-accent px-4 text-sm font-semibold text-accent-ink"
+      >
+        Gửi email
+      </a>
+      <button
+        type="button"
+        data-copy="email"
+        class="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border border-line px-4 text-sm font-semibold hover:border-accent"
+      >
+        Chép địa chỉ
+      </button>
+    </div>
+    <p class="mt-3 text-sm text-muted">
+      Báo lỗi thì gửi kèm đường link của trang và chữ bị sai, hoặc mở issue ở
+      <a class="underline" href="https://github.com/mtuann/chuhan/issues">GitHub</a>. Nghĩa tiếng Việt là bản máy dịch nên có thể còn sai sót.
+    </p>
+  </section>
+
+  <section id="ung-ho" aria-labelledby="ung-ho-h" class="mt-6 scroll-mt-6 rounded-2xl border border-line bg-card p-5">
+    <h2 id="ung-ho-h" class="text-lg font-semibold">Ủng hộ</h2>
+    <p class="mt-1">
+      App miễn phí và không quảng cáo. Nếu thấy hữu ích, bạn có thể ủng hộ một ly cà phê để giữ app chạy lâu dài. Cảm ơn bạn!
+    </p>
+    <div class="mt-4 flex flex-col items-center gap-4 sm:flex-row sm:items-start">
+      <figure class="w-56 shrink-0 rounded-2xl border border-line bg-white p-2 shadow-sm">
+        <img
+          src={qr}
+          width="652"
+          height="804"
+          alt={DONATE_QR_ALT}
+          class="block h-auto w-full rounded-xl"
+          loading="lazy"
+          decoding="async"
+        />
+      </figure>
+      <div class="w-full min-w-0 space-y-3 text-sm">
+        <dl class="grid grid-cols-[auto_1fr] gap-x-3 gap-y-1">
+          <dt class="text-muted">Chủ tài khoản</dt>
+          <dd class="font-semibold">{account.name}</dd>
+          <dt class="text-muted">Ngân hàng</dt>
+          <dd class="font-semibold">{account.bank}</dd>
+          <dt class="text-muted">Số tài khoản</dt>
+          <dd class="font-mono text-base font-semibold tabular-nums">{account.number}</dd>
+        </dl>
+        <div class="flex flex-wrap gap-2">
+          <button
+            type="button"
+            data-copy={account.number.replace(/\s/g, '')}
+            class="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border border-line px-4 text-sm font-semibold hover:border-accent"
+          >
+            Chép số tài khoản
+          </button>
+          <a
+            href={qr}
+            download="ung-ho-chuhan-vietqr.png"
+            class="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border border-line px-4 text-sm font-semibold hover:border-accent"
+          >
+            Lưu ảnh QR
+          </a>
+        </div>
+        <p class="text-muted">
+          Quét bằng app ngân hàng hoặc ví hỗ trợ VietQR (Napas 247). Đang xem trên điện thoại thì lưu ảnh QR rồi mở trong app ngân hàng (quét QR, chọn
+          ảnh), hoặc chép số tài khoản.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <p class="mt-6 text-sm">
+    <a class="text-muted underline" href={url('ban-quyen/')}>Nguồn dữ liệu & giấy phép</a>
+  </p>
+</Base>
+
+<script>
+  import { wireContact } from '../../lib/contact';
+  wireContact();
+</script>

@@ -1,0 +1,79 @@
+---
+// Cập nhật app (spec F9). Không có trên màn hình học (buổi học, Bài 0, luyện tai), nên không bao giờ
+// tải lại giữa buổi học.
+// - Bản mới đã sẵn sàng khi vừa mở trang (người học chưa chạm hay gõ gì, trong 15 giây đầu): cập nhật luôn.
+// - Bản mới về khi người học đang dùng trang: hiện thanh "Có bản mới · Cập nhật"; không bấm thì lần mở
+//   trang sau sẽ tự cập nhật.
+---
+
+<div
+  id="update-banner"
+  hidden
+  data-print-hide
+  role="status"
+  class="fixed inset-x-4 bottom-20 z-30 mx-auto max-w-md rounded-xl border border-accent bg-card p-3 shadow-lg lg:bottom-6"
+>
+  <div class="flex items-center justify-between gap-3">
+    <span class="text-sm">Có bản mới của app.</span>
+    <button id="update-btn" class="min-h-11 rounded-lg bg-accent px-4 text-sm font-semibold text-accent-ink">Cập nhật</button>
+  </div>
+</div>
+
+<script>
+  /** Bản mới sẵn sàng trong khoảng này sau khi mở trang, lúc người học chưa chạm vào trang: tự cập nhật. */
+  const AUTO_WINDOW_MS = 15_000;
+  /** Tự cập nhật mà trình duyệt chưa chuyển sang bản mới sau chừng này: hiện thanh để người học tự bấm. */
+  const FALLBACK_MS = 5_000;
+  const openedAt = performance.now();
+  let touched = false;
+  const markTouched = () => {
+    touched = true;
+  };
+  window.addEventListener('pointerdown', markTouched, { capture: true, once: true });
+  window.addEventListener('keydown', markTouched, { capture: true, once: true });
+
+  function watch(reg: ServiceWorkerRegistration | null | undefined) {
+    const banner = document.getElementById('update-banner');
+    const btn = document.getElementById('update-btn');
+    if (!banner || !btn || !reg) return;
+    let clicked = false;
+    let autoTried = false;
+    /** bản mới đã nắm trang (controllerchange) */
+    let switched = false;
+    let reloading = false;
+    const reload = () => {
+      if (reloading) return;
+      reloading = true;
+      window.location.reload();
+    };
+    const activate = () => reg.waiting?.postMessage({ type: 'SKIP_WAITING' });
+    const check = () => {
+      if (!reg.waiting || !navigator.serviceWorker.controller) return;
+      if (!touched && performance.now() - openedAt < AUTO_WINDOW_MS) {
+        autoTried = true;
+        activate();
+        window.setTimeout(() => {
+          if (!reloading) banner.hidden = false;
+        }, FALLBACK_MS);
+      } else banner.hidden = false;
+    };
+    check();
+    reg.addEventListener('updatefound', () => {
+      reg.installing?.addEventListener('statechange', check);
+    });
+    btn.addEventListener('click', () => {
+      clicked = true;
+      if (switched || !reg.waiting) reload();
+      else activate();
+    });
+    // Lần cài đầu (clientsClaim) cũng phát controllerchange: khi đó không tải lại. Bản mới nắm trang lúc
+    // người học đã bắt đầu dùng trang (chưa bấm "Cập nhật"): cũng không tải lại dưới tay họ.
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      switched = true;
+      if (clicked || (autoTried && !touched)) reload();
+    });
+  }
+  const existing = (window as unknown as { __swReg?: ServiceWorkerRegistration }).__swReg;
+  if (existing) watch(existing);
+  else window.addEventListener('sw-registered', (e) => watch((e as CustomEvent<ServiceWorkerRegistration>).detail), { once: true });
+</script>

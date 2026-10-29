@@ -1,0 +1,127 @@
+---
+import Base from '../../layouts/Base.astro';
+import lock from '../../../sources.lock.json';
+import { url } from '../../lib/url';
+
+// Nguồn dữ liệu: sinh từ sources.lock.json (mỗi nguồn ghim theo commit hoặc phiên bản).
+type LockSource = {
+  id: string;
+  title: string;
+  author: string;
+  homepage: string;
+  license: string;
+  use: string;
+  repo?: string;
+  commit?: string;
+  npm?: string;
+  version?: string;
+};
+const sources = lock.sources as LockSource[];
+
+const LICENSE_NAMES: Record<string, { name: string; href?: string }> = {
+  MIT: { name: 'MIT', href: 'https://opensource.org/license/mit' },
+  'CC-BY-SA-4.0': { name: 'CC BY-SA 4.0', href: 'https://creativecommons.org/licenses/by-sa/4.0/deed.vi' },
+  'CC-BY-SA': { name: 'CC BY-SA (phiên bản theo nguồn)', href: 'https://creativecommons.org/licenses/by-sa/4.0/deed.vi' },
+  'LGPL-3.0-or-later': { name: 'GNU LGPL 3.0 trở lên', href: 'https://www.gnu.org/licenses/lgpl-3.0.html' },
+  'Arphic-1999': { name: 'Arphic Public License', href: 'https://ftp.gnu.org/non-gnu/chinese-fonts-truetype/LICENSE' },
+  'Unicode-3.0': { name: 'Unicode License v3', href: 'https://www.unicode.org/license.txt' },
+};
+const licenseText = (id: string) =>
+  id.replace(/MIT|CC-BY-SA-4\.0|CC-BY-SA|LGPL-3\.0-or-later|Arphic-1999|Unicode-3\.0/g, (m) => LICENSE_NAMES[m]?.name ?? m);
+const versionOf = (s: LockSource) =>
+  s.commit
+    ? { label: `commit ${s.commit.slice(0, 7)}`, href: `https://github.com/${s.repo}/tree/${s.commit}` }
+    : { label: `npm ${s.npm}@${s.version}`, href: `https://www.npmjs.com/package/${s.npm}/v/${s.version}` };
+
+const folders = [
+  {
+    dir: 'sa',
+    license: 'CC BY-SA 4.0 (âm thanh: CC BY-SA)',
+    what: 'nghĩa tiếng Việt và tiếng Anh, từ điển mở rộng, chỉ mục tìm kiếm, ghi chú phát âm, bộ thủ (số bộ theo Unicode: UNICODE-LICENSE.txt), âm thanh người thật',
+    file: 'LICENSE.txt',
+  },
+  { dir: 'apl', license: 'Arphic Public License', what: 'nét chữ', file: 'ARPHICPL.TXT' },
+  { dir: 'lgpl', license: 'GNU LGPL 3.0 trở lên', what: 'cấu tạo chữ, bộ, loại chữ, gợi ý nguồn gốc', file: 'COPYING.LESSER' },
+  { dir: 'mit', license: 'MIT', what: 'danh sách cấp HSK', file: 'LICENSE.txt' },
+];
+
+const software = [
+  { name: 'Hanzi Writer', use: 'Hiển thị và luyện viết nét chữ', license: 'MIT', href: 'https://github.com/chanind/hanzi-writer' },
+  { name: 'Be Vietnam Pro', use: 'Font giao diện', license: 'SIL Open Font License 1.1', href: 'https://fonts.google.com/specimen/Be+Vietnam+Pro' },
+  { name: 'Astro, React, Tailwind CSS, Dexie, Serwist', use: 'Khung xây dựng site và chạy offline', license: 'MIT', href: 'https://astro.build' },
+];
+---
+
+<Base title="Nguồn & giấy phép" tab="toi">
+  <h1 class="text-2xl font-semibold">Nguồn & giấy phép</h1>
+  <p class="mt-1 text-muted">
+    App phi thương mại, mã nguồn mở theo giấy phép MIT; dữ liệu giữ giấy phép của nguồn gốc. Pinyin, âm Hán Việt, nét chữ,
+    nghĩa đều lấy từ các nguồn mở dưới đây. Nghĩa tiếng Việt là bản máy dịch (CVDICT) nên có nhãn “máy dịch”; tám ghi chú
+    phát âm ở trang Âm do AI soạn, có nhãn “chưa duyệt”. App không có bài học, câu ví dụ hay bài đọc soạn sẵn: văn bản bạn
+    dán chỉ nằm trên máy bạn.
+  </p>
+
+  <h2 class="mt-8 text-lg font-semibold">Nguồn dữ liệu</h2>
+  <ul class="mt-3 space-y-3">
+    {
+      sources.map((s) => {
+        const v = versionOf(s);
+        return (
+          <li class="rounded-2xl border border-line bg-card p-4">
+            <a href={s.homepage} class="font-semibold underline decoration-line underline-offset-4 hover:decoration-accent">
+              {s.title}
+            </a>
+            <p class="text-sm text-muted">{s.author}</p>
+            <p class="mt-1 text-sm">{s.use}</p>
+            <p class="mt-1 text-xs text-muted">
+              Giấy phép: {licenseText(s.license)} · Phiên bản dùng:{' '}
+              <a href={v.href} class="underline decoration-line underline-offset-2">
+                {v.label}
+              </a>
+            </p>
+          </li>
+        );
+      })
+    }
+  </ul>
+
+  <h2 class="mt-8 text-lg font-semibold">Tệp dữ liệu tải về</h2>
+  <p class="mt-1 text-sm text-muted">
+    Dữ liệu được tách theo giấy phép; mỗi thư mục kèm nguyên văn giấy phép. Danh sách cấp HSK là dữ kiện trích từ đề cương thi
+    do CLEC (<span lang="zh-CN">中外语言交流合作中心</span>) ban hành.
+  </p>
+  <ul class="mt-3 space-y-2 text-sm">
+    {
+      folders.map((f) => (
+        <li>
+          <code>data/{f.dir}/</code> · {f.license} · {f.what} ·{' '}
+          <a href={url(`data/${f.dir}/${f.file}`)} class="underline decoration-line underline-offset-2">
+            {f.file}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+
+  <p class="mt-3 text-sm text-muted">
+    Tên gọi khác của bộ thủ (亻 nhân đứng, 儿 nhân đi…) theo Wikipedia tiếng Việt, bài
+    <a href="https://vi.wikipedia.org/wiki/B%E1%BB%99_th%E1%BB%A7_Khang_Hy" class="underline decoration-line underline-offset-2">Bộ thủ Khang Hy</a>
+    (CC BY-SA 4.0).
+  </p>
+
+  <h2 class="mt-8 text-lg font-semibold">Phần mềm và font</h2>
+  <ul class="mt-3 space-y-3">
+    {
+      software.map((s) => (
+        <li class="rounded-2xl border border-line bg-card p-4">
+          <a href={s.href} class="font-semibold underline decoration-line underline-offset-4 hover:decoration-accent">
+            {s.name}
+          </a>
+          <p class="text-sm">{s.use}</p>
+          <p class="text-xs text-muted">{s.license}</p>
+        </li>
+      ))
+    }
+  </ul>
+  <p class="mt-6 text-xs text-muted">Biểu tượng app vẽ từ dữ liệu nét chữ 汉 của hanzi-writer-data (Arphic Public License).</p>
+</Base>

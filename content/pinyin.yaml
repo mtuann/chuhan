@@ -1,0 +1,63 @@
+# Ghi chú phát âm cho người Việt, hiện trong bảng âm (trang Âm). AI soạn, chưa duyệt.
+# sounds: phụ âm đầu (hoặc vần, ví dụ er) mà ghi chú áp dụng, để hiện ngay trên bảng khi chọn âm đó.
+# pairs: cặp âm tiết để nghe so sánh, dạng số, ü viết v (app ẩn âm tiết không có bản ghi).
+# Không ghi pinyin hay âm Hán Việt của từ cụ thể ở đây: chỉ âm tiết.
+status: draft
+by: ai
+notes:
+  - id: b-p-d-t-g-k
+    sounds: [b, p, d, t, g, k]
+    title: b/p, d/t, g/k — bật hơi hay không
+    text: >-
+      Mỗi cặp khác nhau ở luồng hơi, không phải ở độ nặng nhẹ. d gần “t” tiếng Việt, còn t gần “th”. g gần “c”, còn k như g
+      nhưng bật mạnh một luồng hơi (không phải “kh”). b như “p” không bật hơi, còn p bật mạnh hơi (không phải “ph”).
+    pairs: [[da4, ta4], [ge1, ke1], [ba1, pa1]]
+  - id: h
+    sounds: [h]
+    title: h — gần “kh”
+    text: >-
+      h phát ra ở cuống lưỡi, gần “kh” tiếng Việt nhưng nhẹ hơn, không phải “h” tiếng Việt.
+    pairs: []
+  - id: zh-ch-sh-r
+    sounds: [zh, ch, sh, r]
+    title: zh, ch, sh, r — uốn lưỡi
+    text: >-
+      Cong đầu lưỡi lên phía sau chân răng trên. zh gần “tr” khi đọc uốn lưỡi, không bật hơi; ch như zh nhưng bật mạnh hơi;
+      sh gần “s” khi đọc uốn lưỡi; r như sh nhưng có tiếng, không đọc thành “d” hay “gi”. Trong zhi, chi, shi, ri, chữ i
+      không đọc là “i”: giữ nguyên lưỡi và kéo dài âm.
+    pairs: [[zhi1, zi1], [chi1, ci1], [shi4, si4]]
+  - id: z-c-s
+    sounds: [z, c, s]
+    title: z, c, s — đầu lưỡi thẳng
+    text: >-
+      Đầu lưỡi thẳng, tựa sau răng cửa trên. z đọc “t” và “x” liền nhau thành một âm, không bật hơi; c như z nhưng bật mạnh
+      hơi; s như “x” tiếng Việt. Trong zi, ci, si, chữ i đọc gần như “ư”.
+    pairs: [[zi4, zhi4], [ci2, chi2], [si1, shi1]]
+  - id: j-q-x
+    sounds: [j, q, x]
+    title: j, q, x — mặt lưỡi
+    text: >-
+      Đầu lưỡi tựa sau răng cửa dưới, mặt lưỡi nâng sát vòm miệng, môi dẹt như cười. j gần “ch” tiếng Việt, không bật hơi;
+      q như j nhưng bật mạnh hơi; x gần “x” nhưng mặt lưỡi nâng cao. Sau j, q, x chữ u thật ra là ü: ju, qu, xu đọc tròn môi.
+    pairs: [[ji1, zhi1], [qi1, chi1], [xi1, shi1], [ju2, zhu2]]
+  - id: u-umlaut
+    sounds: [n, l, y]
+    title: ü — đọc “i” mà tròn môi
+    text: >-
+      Đặt lưỡi như đọc “i” rồi chu môi tròn lại, giữ nguyên lưỡi (gần “uy” đọc liền thành một âm). Sau n, l viết ü để phân
+      biệt với u (nü và nu, lü và lu). Sau j, q, x, y chỉ viết u nhưng vẫn đọc ü (ju, qu, xu, yu).
+    pairs: [[nv3, nu3], [lv4, lu4], [yu2, wu2]]
+  - id: er
+    sounds: [er]
+    title: er — “ơ” cong lưỡi
+    text: >-
+      Đọc “ơ” rồi cong đầu lưỡi lên ngay, thành một âm, không đọc thành “ơ… rờ”. Âm “r” thêm vào cuối một số từ cũng cong
+      lưỡi như vậy.
+    pairs: [[er2, e2], [er4, e4]]
+  - id: n-ng
+    sounds: []
+    title: -n và -ng ở cuối âm
+    text: >-
+      -n kết thúc bằng đầu lưỡi chạm lợi trên, như “n” cuối trong tiếng Việt; -ng thì lưỡi lùi về sau, như “ng” cuối. Nhầm
+      hai âm này là thành âm tiết khác, nên nghe kỹ từng cặp.
+    pairs: [[an1, ang1], [men2, meng2], [yin1, ying1], [xin1, xing1]]

@@ -1,0 +1,16 @@
+---
+import Base from '../../layouts/Base.astro';
+import PinyinChart from '../../app/pinyin/PinyinChart';
+import { url } from '../../lib/url';
+---
+
+<Base title="Bảng âm" tab="am" description="Bảng pinyin có tiếng người thật: chạm vào âm tiết để nghe 4 thanh, kèm ghi chú các âm khó với người Việt.">
+  <h1 class="text-2xl font-semibold">Bảng âm</h1>
+  <p class="mt-1 mb-5 text-muted">Chọn phụ âm đầu, chạm vào âm để nghe 4 thanh bằng giọng người thật.</p>
+  <PinyinChart client:only="react" />
+  <noscript><p class="text-t1">Cần bật JavaScript để nghe.</p></noscript>
+  <p class="mt-8 text-xs text-muted">
+    Âm thanh: audio-cmn (Hugo Lopez, giọng Chen Wang), CC BY-SA. Ghi chú phát âm: nội dung của dự án, CC BY-SA 4.0. Xem{' '}
+    <a class="underline" href={url('ban-quyen/')}>Nguồn &amp; giấy phép</a>.
+  </p>
+</Base>

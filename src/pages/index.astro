@@ -1,0 +1,9 @@
+---
+import Base from '../layouts/Base.astro';
+import PasteApp from '../app/reading/PasteApp';
+---
+
+<Base title="Đọc" tab="doc">
+  <PasteApp client:only="react" />
+  <noscript><p class="text-t1">Cần bật JavaScript để đọc văn bản.</p></noscript>
+</Base>

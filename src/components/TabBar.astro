@@ -1,0 +1,52 @@
+---
+import { url } from '../lib/url';
+
+export type TabId = 'doc' | 'viet' | 'go' | 'am' | 'toi' | 'tra' | 'bo-thu';
+interface Props {
+  active?: TabId;
+}
+const { active } = Astro.props;
+
+// Icon SVG đơn giản, nét 1.75, theo màu chữ hiện tại.
+const tabs = [
+  { id: 'doc', label: 'Đọc', href: url(), icon: 'M2 5.5A1.5 1.5 0 0 1 3.5 4H9a3 3 0 0 1 3 3v13a2.5 2.5 0 0 0-2.5-2.5H2zM22 5.5A1.5 1.5 0 0 0 20.5 4H15a3 3 0 0 0-3 3v13a2.5 2.5 0 0 1 2.5-2.5H22z' },
+  { id: 'viet', label: 'Viết', href: url('viet/'), icon: 'M16.9 3.6a2.1 2.1 0 0 1 3 3L8 18.5 4 20l1.5-4zM14.5 6l3.5 3.5' },
+  { id: 'go', label: 'Gõ', href: url('go/'), icon: 'M3 6h18v12H3zM7 10h.01M11 10h.01M15 10h.01M17 14H7' },
+  { id: 'am', label: 'Âm', href: url('am/'), icon: 'M4 10v4M8 7v10M12 4v16M16 8v8M20 11v2' },
+  { id: 'toi', label: 'Tôi', href: url('toi/'), icon: 'M12 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM4 21a8 8 0 0 1 16 0' },
+];
+// chỉ hiện ở thanh bên trên màn hình rộng (điện thoại: nút tìm ở đầu trang)
+const extra = [
+  { id: 'tra', label: 'Tra từ', href: url('tra/'), icon: 'M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM20 20l-4-4' },
+  { id: 'bo-thu', label: 'Bộ thủ', href: url('bo-thu/'), icon: 'M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z' },
+];
+const link = (on: boolean) => [
+  'flex min-h-14 flex-col items-center justify-center gap-0.5 text-xs lg:min-h-11 lg:flex-row lg:justify-start lg:gap-3 lg:rounded-lg lg:px-3 lg:text-sm',
+  on ? 'font-semibold text-accent lg:bg-accent-soft' : 'text-muted hover:text-ink',
+];
+---
+
+<nav
+  aria-label="Điều hướng chính"
+  class="fixed inset-x-0 bottom-0 z-20 border-t border-line bg-card/95 pb-[env(safe-area-inset-bottom)] backdrop-blur lg:sticky lg:top-0 lg:h-dvh lg:w-56 lg:shrink-0 lg:border-t-0 lg:border-r lg:bg-paper lg:pb-0"
+  data-print-hide
+>
+  <a href={url()} class="hidden items-center gap-2 px-5 pt-6 pb-4 lg:flex">
+    <span class="han text-2xl font-semibold text-accent" lang="zh-CN">字</span>
+    <span class="font-semibold">Chữ Hán</span>
+  </a>
+  <ul class="mx-auto flex max-w-2xl justify-around lg:flex-col lg:justify-start lg:gap-1 lg:px-3">
+    {
+      [...tabs, ...extra].map((t) => (
+        <li class:list={['flex-1 lg:flex-none', extra.includes(t) && 'hidden lg:block']}>
+          <a href={t.href} aria-current={active === t.id ? 'page' : undefined} class:list={link(active === t.id)}>
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d={t.icon} />
+            </svg>
+            <span>{t.label}</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>

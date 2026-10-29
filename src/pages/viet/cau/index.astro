@@ -1,0 +1,9 @@
+---
+import Base from '../../../layouts/Base.astro';
+import SentenceApp from '../../../app/writing/SentenceApp';
+---
+
+<Base title="Xem cách viết" tab="viet" description="Nhập một câu tiếng Trung, xem từng chữ viết nét theo thứ tự, kèm pinyin theo ngữ cảnh và âm Hán Việt.">
+  <SentenceApp client:only="react" />
+  <noscript><p class="text-t1">Cần bật JavaScript để xem cách viết.</p></noscript>
+</Base>

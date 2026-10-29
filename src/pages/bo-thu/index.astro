@@ -1,0 +1,9 @@
+---
+import Base from '../../layouts/Base.astro';
+import RadicalsApp from '../../app/char/RadicalsApp';
+---
+
+<Base title="Bộ thủ" tab="bo-thu" description="214 bộ thủ Khang Hy kèm dạng biến thể, âm Hán Việt và các chữ có bộ đó.">
+  <RadicalsApp client:only="react" />
+  <noscript><p class="text-t1">Cần bật JavaScript để xem bộ thủ.</p></noscript>
+</Base>

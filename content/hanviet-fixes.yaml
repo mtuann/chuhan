@@ -1,0 +1,12 @@
+# Ghi đè âm Hán Việt theo từng từ (khớp theo id từ: chữ + pinyin số liền, vd "好容易_hao3rong2yi4").
+# Vì sao cần file này: bảng hanviet.csv (nguồn thứ ba, ghim commit) chỉ cho MỘT âm Hán Việt cho mỗi
+# cặp (chữ, pinyin); chữ đa âm Hán Việt theo ngữ cảnh không thể đúng hết mọi từ:
+#   易 yi4: "dị" trong 容易 (dễ dàng) nhưng "dịch" trong 交易 (giao dịch) / họ Dịch.
+# Không sửa global theo chữ (sẽ làm sai từ khác) — chỉ ghi đè đúng từ cần sửa.
+# Mỗi mục: mảng âm Hán Việt của từng chữ, đúng thứ tự và đúng số lượng chữ của từ.
+# Tệp này vừa là dữ liệu sửa, vừa là kiểm tra hồi quy: scripts/data/validate.ts báo LỖI
+# (dừng pipeline) nếu kết quả build khác với giá trị ghi ở đây.
+"容易_rong2yi4": ["dung", "dị"]
+"好容易_hao3rong2yi4": ["hảo", "dung", "dị"]
+"好不容易_hao3bu4rong2yi4": ["hảo", "bất", "dung", "dị"]
+"好歹_hao3dai3": ["hảo", "đãi"]

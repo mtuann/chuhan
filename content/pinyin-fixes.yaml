@@ -1,0 +1,5 @@
+# Sửa pinyin sai từ nguồn đề cương 2025 (nguồn ghim commit, không sửa được ở gốc).
+# Khóa: chữ Hán giản thể. Giá trị: pinyin dạng dấu ĐÚNG — dùng để sinh wordId.
+# Áp dụng trong WordSet.add2025 (scripts/data/build.ts), kiểm tra hồi quy trong
+# scripts/data/validate.ts: pinyin build ra phải khớp giá trị này.
+任性: rènxìng

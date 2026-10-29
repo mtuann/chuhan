@@ -1,0 +1,318 @@
+{
+  "$comment": "Nguồn dữ liệu đã ghim. Đổi commit/phiên bản rồi chạy `npm run data -- --update-lock` để tính lại sha256. Trang /ban-quyen/ sinh từ tệp này.",
+  "version": 1,
+  "sources": [
+    {
+      "id": "syllabus25",
+      "title": "Đề cương thi HSK 2025 (CLEC): bảng từ, chữ đọc, chữ viết tay",
+      "author": "Alvaro Serrano (harukicoder/hsk30)",
+      "homepage": "https://github.com/harukicoder/hsk30",
+      "repo": "harukicoder/hsk30",
+      "commit": "36c0d11347b5d4caea52917d1262404824ad58d5",
+      "license": "MIT",
+      "use": "Cấp HSK 2025 của 10.896 từ, 3.088 chữ đọc, 1.200 chữ viết tay; pinyin và từ loại theo đề cương",
+      "files": {
+        "words": {
+          "path": "corpus/syllabus2025/syllabus2025_words.tsv",
+          "sha256": "8d5f5823c31f78445ba06fc78a6e60f0992fb3a027e076b12bad5f0e24179cf2",
+          "bytes": 259264
+        },
+        "chars": {
+          "path": "corpus/syllabus2025/syllabus2025_chars.tsv",
+          "sha256": "baeeb3aa87f3982e7636f25e0830f67a435db74ea04ab89cdfb28acce6f44656",
+          "bytes": 18544
+        },
+        "writing": {
+          "path": "corpus/syllabus2025/syllabus2025_writing_chars.tsv",
+          "sha256": "9565c1b93f15345eb2e7c7cc6901d7580d600f72d003c2e5ae3c54808f476002",
+          "bytes": 7216
+        },
+        "provenance": {
+          "path": "corpus/syllabus2025/PROVENANCE.md",
+          "sha256": "55e8f3e7384691e5cb91ff2e2c14f7ac7d816c3d979a054f7b05ca27cd68a099",
+          "bytes": 2500
+        },
+        "license": {
+          "path": "LICENSE",
+          "sha256": "00dcb58c6f88ad94837b8f8245653e203d571b1df4bbe315a2035aad0acff404",
+          "bytes": 1071
+        }
+      }
+    },
+    {
+      "id": "krmanik25",
+      "title": "HSK 3.0 theo đề cương 2025: danh sách từ theo cấp kèm pinyin",
+      "author": "Mani (krmanik/HSK-3.0)",
+      "homepage": "https://github.com/krmanik/HSK-3.0",
+      "repo": "krmanik/HSK-3.0",
+      "commit": "182692ce5a11bc30bdc771835d2f0f27491c25de",
+      "license": "CC-BY-SA-4.0",
+      "use": "Khôi phục các mục đồng tự khác âm (只 zhǐ, 还 huán, 长 zhǎng…) mà bảng của harukicoder gộp mất",
+      "files": {
+        "anki1": {
+          "path": "New HSK (2025)/Anki xiehanzi/HSK_Level_1.txt",
+          "sha256": "d7808dbd8ce6f083faae57970d94fc6458154a7e8636e6f123525f27b51bbc1f",
+          "bytes": 163892
+        },
+        "anki2": {
+          "path": "New HSK (2025)/Anki xiehanzi/HSK_Level_2.txt",
+          "sha256": "b03dd8524c7b96dfa6e9c7c9d2d28f071e823853326d5221ac14212fb01e3414",
+          "bytes": 123552
+        },
+        "anki3": {
+          "path": "New HSK (2025)/Anki xiehanzi/HSK_Level_3.txt",
+          "sha256": "172a276d3bdee7223d7ed42360bfdbab378ba1100655b3f0ee703001cd145475",
+          "bytes": 267703
+        },
+        "anki4": {
+          "path": "New HSK (2025)/Anki xiehanzi/HSK_Level_4.txt",
+          "sha256": "bd369cb719592882f6e3f554714fd3dbd7aecd61feceac7af7901b4889435c36",
+          "bytes": 524627
+        },
+        "anki5": {
+          "path": "New HSK (2025)/Anki xiehanzi/HSK_Level_5.txt",
+          "sha256": "0f1e8a34ee9c6fb66d1ff55967ae0fab8980cd7bc1fde51569b976806d2c1748",
+          "bytes": 831816
+        },
+        "anki6": {
+          "path": "New HSK (2025)/Anki xiehanzi/HSK_Level_6.txt",
+          "sha256": "aa4b475fb55730958249e5dac26dccbeeb1d82c5039128ee18c7810a95df59aa",
+          "bytes": 907879
+        },
+        "anki7": {
+          "path": "New HSK (2025)/Anki xiehanzi/HSK_Level_7-9.txt",
+          "sha256": "bdc661448d87509864f8ffff9410addd105a91b49c78af7d0b761a7f0b8ce4f8",
+          "bytes": 2873333
+        },
+        "license": {
+          "path": "License.md",
+          "sha256": "a9aaff6f99acc720857d6a74f099c03d7c264da3e9ca825f9ffa750a1fe9e118",
+          "bytes": 1073
+        }
+      }
+    },
+    {
+      "id": "std21",
+      "title": "Chuẩn trình độ tiếng Trung quốc tế 2021 (GF0025-2021): bảng từ và chữ",
+      "author": "Ivan Krasilnikov (ivankra/hsk30)",
+      "homepage": "https://github.com/ivankra/hsk30",
+      "repo": "ivankra/hsk30",
+      "commit": "4ff9e3915ce87baaecd7ebe263085573a4ea3192",
+      "license": "MIT",
+      "use": "Cấp theo chuẩn 2021 của từ và chữ, cấp viết tay 2021, phồn thể",
+      "files": {
+        "words": {
+          "path": "hsk30.csv",
+          "sha256": "8c2b73f74776240bcf154624730fc6fb2c42c254d5c5d0f88943878b8e575b9b",
+          "bytes": 948891
+        },
+        "chars": {
+          "path": "hsk30-chars.csv",
+          "sha256": "8c5957108e6dafd120be10518a827a4d834ea3ce29acbfedeff1022cd7d05280",
+          "bytes": 108366
+        },
+        "license": {
+          "path": "LICENSE",
+          "sha256": "9cd70c000ea23c899e71b2cbe7c28e18c60937f6e74d1b344d2923f6bddae44a",
+          "bytes": 1129
+        }
+      }
+    },
+    {
+      "id": "hsk20",
+      "title": "HSK 2.0 (bản 2012): 5.000 từ, 6 cấp",
+      "author": "Alan Davies (glxxyz/hskhsk.com)",
+      "homepage": "https://github.com/glxxyz/hskhsk.com",
+      "repo": "glxxyz/hskhsk.com",
+      "commit": "8a6f229c699e2fd7ac8708156c55c3afb2be7e1f",
+      "license": "MIT",
+      "use": "Cấp HSK 2.0 của từ",
+      "files": {
+        "l1": {
+          "path": "cidian/data/HSK Official With Definitions 2012 L1.txt",
+          "sha256": "b11a4182a68d98a28b6a84a6813d397a10c8365be76708c3026e63d1b84915a1",
+          "bytes": 7351
+        },
+        "l2": {
+          "path": "cidian/data/HSK Official With Definitions 2012 L2.txt",
+          "sha256": "44c6cab7a3168aafef7a0cdede60c03005de5445120588861a0876a92099c3a2",
+          "bytes": 7842
+        },
+        "l3": {
+          "path": "cidian/data/HSK Official With Definitions 2012 L3.txt",
+          "sha256": "64d90d369299bcaad2f78ae91c754b8d72f2d8f0c44d1df624abe0a225ade8d1",
+          "bytes": 16577
+        },
+        "l4": {
+          "path": "cidian/data/HSK Official With Definitions 2012 L4.txt",
+          "sha256": "29a026f3866c615cc24bd783296e4d6383b2bd57f4fea8dc1105a208c9fb16cc",
+          "bytes": 34525
+        },
+        "l5": {
+          "path": "cidian/data/HSK Official With Definitions 2012 L5.txt",
+          "sha256": "c6e3050198c8b94cde1b91e1e3dc662315f4884f47bb95630d5c4f3ad0cedff1",
+          "bytes": 75976
+        },
+        "l6": {
+          "path": "cidian/data/HSK Official With Definitions 2012 L6.txt",
+          "sha256": "6bea5078215068938774563612f740c89309d8d1f30021c4041251d2cdc55524",
+          "bytes": 158827
+        },
+        "license": {
+          "path": "LICENSE",
+          "sha256": "159aa45b1accd2bd0a2b1619d959a7d2e35b6a2a178e3571b24a6ca38a39ed36",
+          "bytes": 1068
+        }
+      }
+    },
+    {
+      "id": "cvdict",
+      "title": "CVDICT: từ điển Trung–Việt mở, dịch từ CC-CEDICT",
+      "author": "Phong Phan (ph0ngp/CVDICT); CC-CEDICT (MDBG)",
+      "homepage": "https://github.com/ph0ngp/CVDICT",
+      "repo": "ph0ngp/CVDICT",
+      "commit": "c379d909e308343a247e51619f7839a2060a271c",
+      "license": "CC-BY-SA-4.0",
+      "use": "Nghĩa tiếng Việt, phồn thể, lượng từ; từ điển mở rộng ngoài HSK",
+      "files": {
+        "dict": {
+          "path": "CVDICT.u8",
+          "sha256": "4dde4b204193efa9c192d7f7daeab1bb579c8ccd7c41ed90d1b6caee22ba0948",
+          "bytes": 10803314
+        }
+      }
+    },
+    {
+      "id": "hanviet",
+      "title": "Danh sách âm Hán Việt theo pinyin",
+      "author": "Phong Phan (ph0ngp/hanviet-pinyin-wordlist)",
+      "homepage": "https://github.com/ph0ngp/hanviet-pinyin-wordlist",
+      "repo": "ph0ngp/hanviet-pinyin-wordlist",
+      "commit": "b9923df92c8b55f013001390e37cddd35e986dc1",
+      "license": "MIT",
+      "use": "Âm Hán Việt theo cặp (chữ phồn thể, pinyin)",
+      "files": {
+        "list": {
+          "path": "hanviet.csv",
+          "sha256": "dd90d59db1265a47317477c9f741baeff7cb4dfed58d9a0c2be5f69b9ed14d66",
+          "bytes": 195371
+        },
+        "license": {
+          "path": "LICENSE",
+          "sha256": "4c88b09e549ab516a6a7acb5b2091fb664dba39dd73e3530199c59783a819d25",
+          "bytes": 1061
+        }
+      }
+    },
+    {
+      "id": "mmah",
+      "title": "Make Me a Hanzi: cấu tạo chữ, bộ, loại chữ, gợi ý nguồn gốc",
+      "author": "Shaunak Kishore (skishore/makemeahanzi)",
+      "homepage": "https://github.com/skishore/makemeahanzi",
+      "repo": "skishore/makemeahanzi",
+      "commit": "bddc96d41bef78427ed0e034e9f7e31d71fd1b92",
+      "license": "LGPL-3.0-or-later",
+      "use": "Bộ, cấu tạo (IDS), loại chữ, gợi ý nguồn gốc, nghĩa ngắn tiếng Anh của chữ",
+      "files": {
+        "dictionary": {
+          "path": "dictionary.txt",
+          "sha256": "744bb05d5b0742e9ee35c37791f94d56a173349b3367569e7ca11e510364d203",
+          "bytes": 2570140
+        },
+        "copying": {
+          "path": "COPYING",
+          "sha256": "26fa6b699b32401de4b75a4af574c2e0a99b3df6cb12df9313d257ee4634359c",
+          "bytes": 1016
+        },
+        "lgpl": {
+          "path": "LGPL",
+          "sha256": "eeb6fd06beac4a94a12ffb66876ecd6af68d5b6f38650d5f11aa90125933098b",
+          "bytes": 9767
+        }
+      }
+    },
+    {
+      "id": "unicode",
+      "title": "Unicode Character Database 16.0: bộ thủ Khang Hy",
+      "author": "Unicode, Inc. (unicode-org/unicodetools)",
+      "homepage": "https://www.unicode.org/ucd/",
+      "repo": "unicode-org/unicodetools",
+      "commit": "48d732faae1ba71ce9135db787e5a339f0559a98",
+      "license": "Unicode-3.0",
+      "use": "Số thứ tự 214 bộ Khang Hy và dạng biến thể của từng bộ (氵 thuộc bộ 水, số 85) cho trang chữ",
+      "files": {
+        "radicals": {
+          "path": "unicodetools/data/ucd/16.0.0/CJKRadicals.txt",
+          "sha256": "4a96507f4644bbbb11b423edb436e05cee84dadd57413e7571b5af67321474f1",
+          "bytes": 5483
+        },
+        "equivalent": {
+          "path": "unicodetools/data/ucd/16.0.0/EquivalentUnifiedIdeograph.txt",
+          "sha256": "628929adae97427348337003e39d29da7b55acdddfac21e06d3dacad92237834",
+          "bytes": 18371
+        },
+        "license": {
+          "path": "LICENSE",
+          "sha256": "fe5c62b543e287981db198f2acfa0ca732d12591a1024536dc8fd85dacd77104",
+          "bytes": 2033
+        }
+      }
+    },
+    {
+      "id": "chv",
+      "title": "Complete HSK Vocabulary: nghĩa tiếng Anh của từ HSK",
+      "author": "Yanis Zafirópulos (drkameleon/complete-hsk-vocabulary); nghĩa từ CC-CEDICT",
+      "homepage": "https://github.com/drkameleon/complete-hsk-vocabulary",
+      "repo": "drkameleon/complete-hsk-vocabulary",
+      "commit": "7ac65bf1a6387d35f1ade478906172a19311c7f9",
+      "license": "MIT; nghĩa: CC-BY-SA-4.0 (CC-CEDICT)",
+      "use": "Nghĩa tiếng Anh, lượng từ",
+      "files": {
+        "complete": {
+          "path": "complete.min.json",
+          "sha256": "52d8e64ba65a6db4a38ea34302c6de5df53cdb5145254b25edcbf93b80676434",
+          "bytes": 2974371
+        },
+        "license": {
+          "path": "LICENSE",
+          "sha256": "21094287f6e487f6978cf240c67603e4a0e9f341c6e732558d052feb44210c8f",
+          "bytes": 1075
+        }
+      }
+    },
+    {
+      "id": "strokes",
+      "title": "hanzi-writer-data: dữ liệu nét chữ",
+      "author": "David Chanin; dẫn xuất từ Make Me a Hanzi và phông Arphic",
+      "homepage": "https://github.com/chanind/hanzi-writer-data",
+      "npm": "hanzi-writer-data",
+      "version": "2.0.1",
+      "license": "Arphic-1999",
+      "use": "Nét chữ cho animation và viết thử; số nét",
+      "files": {}
+    },
+    {
+      "id": "audiocmn",
+      "title": "audio-cmn: âm tiết và từ HSK do người bản ngữ đọc",
+      "author": "Hugo Lopez (biên tập, nén mp3); giọng Chen Wang (âm tiết), Yue Tan (từ HSK 2000, dự án Shtooka)",
+      "homepage": "https://github.com/hugolpz/audio-cmn",
+      "repo": "hugolpz/audio-cmn",
+      "commit": "ff9ed3d0c631195bd2c06f39450f3264c7124040",
+      "license": "CC-BY-SA",
+      "use": "Âm tiết có thanh cho bảng pinyin, Bài 0 và luyện tai; từ HSK cấp 1–3 chỉ có một cách đọc",
+      "files": {},
+      "audio": {
+        "syllables": {
+          "dir": "64k/syllabs",
+          "count": 1643,
+          "digest": "90a64420b89974f2565e274825028bafe70ba7eb43f1dd10ab94799d95f16990"
+        },
+        "words": {
+          "dir": "64k/hsk",
+          "count": 901,
+          "digest": "91b21b36ced82fa46b3bcd2e2a07b224fe36fbafd6c09931517a96c11f50ce68"
+        }
+      }
+    }
+  ]
+}

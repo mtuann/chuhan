@@ -1,0 +1,13 @@
+---
+import Base from '../../../layouts/Base.astro';
+import SettingsApp from '../../../app/settings/SettingsApp';
+---
+
+<Base title="Cài đặt" tab="toi">
+  <h1 class="text-2xl font-semibold">Cài đặt</h1>
+  <p class="mt-2 text-sm text-muted">Số phút học mỗi ngày, tỉ lệ nhớ mục tiêu, thẻ Nói, thẻ Viết và giọng đọc. Mọi thay đổi được lưu ngay trên máy và có hiệu lực từ buổi học kế tiếp.</p>
+  <div class="mt-6">
+    <SettingsApp client:only="react" />
+  </div>
+  <noscript><p class="text-t1">Cần bật JavaScript để đổi cài đặt.</p></noscript>
+</Base>

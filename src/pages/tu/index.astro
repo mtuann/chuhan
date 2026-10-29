@@ -1,0 +1,9 @@
+---
+import Base from '../../layouts/Base.astro';
+import WordPage from '../../app/word/WordPage';
+---
+
+<Base title="Từ" tab="tra">
+  <WordPage client:only="react" />
+  <noscript><p class="text-t1">Cần bật JavaScript để xem từ.</p></noscript>
+</Base>

@@ -1,0 +1,9 @@
+---
+import Base from '../../layouts/Base.astro';
+import SearchApp from '../../app/search/SearchApp';
+---
+
+<Base title="Tra từ" tab="tra">
+  <SearchApp client:only="react" />
+  <noscript><p class="text-t1">Cần bật JavaScript để tra từ.</p></noscript>
+</Base>

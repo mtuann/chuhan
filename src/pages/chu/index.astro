@@ -1,0 +1,9 @@
+---
+import Base from '../../layouts/Base.astro';
+import CharPage from '../../app/char/CharPage';
+---
+
+<Base title="Chữ" tab="tra">
+  <CharPage client:only="react" />
+  <noscript><p class="text-t1">Cần bật JavaScript để xem chữ.</p></noscript>
+</Base>

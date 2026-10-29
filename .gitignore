@@ -1,0 +1,15 @@
+node_modules/
+dist/
+.astro/
+.cache/
+test-results/
+playwright-report/
+# Dữ liệu sinh ra bởi scripts/ (CI tạo lại khi build)
+public/data/
+.DS_Store
+*.log
+.env
+.env.*
+
+# output của Claude (không commit)
+Claude outputs/

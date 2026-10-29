@@ -1,0 +1,9 @@
+---
+import Base from '../../layouts/Base.astro';
+import TypingApp from '../../app/typing/TypingApp';
+---
+
+<Base title="Gõ chữ" tab="go" description="Luyện gõ tiếng Trung bằng pinyin ngay trên trình duyệt: gợi ý chữ kèm Hán Việt và nghĩa, bẫy chữ cùng âm, thử thách 1 phút.">
+  <TypingApp client:only="react" />
+  <noscript><p class="text-t1">Cần bật JavaScript để luyện gõ.</p></noscript>
+</Base>
