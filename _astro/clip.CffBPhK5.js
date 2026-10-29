@@ -1,0 +1,1 @@
+function e(e){e?.querySelectorAll(`[clip-path]`).forEach(e=>{let t=e.getAttribute(`clip-path`)??``;if(t.startsWith(`url(#`))return;let n=/#([^"')]+)["']?\)\s*$/.exec(t);n&&e.setAttribute(`clip-path`,`url(#${n[1]})`)})}export{e as t};

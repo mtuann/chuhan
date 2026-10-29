@@ -1,0 +1,18 @@
+Các tệp trong thư mục này phân phối theo Creative Commons Attribution-ShareAlike 4.0 (CC BY-SA 4.0):
+https://creativecommons.org/licenses/by-sa/4.0/
+
+Nguồn:
+- CVDICT (Phong Phan, https://github.com/ph0ngp/CVDICT), dịch từ CC-CEDICT (MDBG): nghĩa tiếng Việt, từ điển mở rộng.
+- CC-CEDICT qua complete-hsk-vocabulary (https://github.com/drkameleon/complete-hsk-vocabulary): nghĩa tiếng Anh.
+- krmanik/HSK-3.0 (Mani, https://github.com/krmanik/HSK-3.0): điểm ngữ pháp đề cương 2025, mục đồng tự khác âm.
+Đã chỉnh sửa: chọn lọc, gộp theo từ HSK, rút gọn tham chiếu phồn thể. Nghĩa tiếng Việt là bản máy dịch, chưa duyệt.
+- Ghi chú phát âm (notes/): nội dung tự soạn của dự án (content/pinyin.yaml), AI soạn, chưa duyệt.
+- Bộ thủ (radicals): số bộ Khang Hy và dạng biến thể theo Unicode Character Database 16.0 (CJKRadicals.txt,
+  EquivalentUnifiedIdeograph.txt; Unicode License v3, xem UNICODE-LICENSE.txt), dạng bộ của chữ theo Make Me a Hanzi,
+  âm Hán Việt theo bảng Hán Việt của dự án (MIT); tên gọi khác của bộ 亻, 儿 theo Wikipedia tiếng Việt
+  (bài "Bộ thủ Khang Hy", CC BY-SA 4.0).
+
+Âm thanh trong audio/cmn/ (CC BY-SA, không chỉnh sửa; https://github.com/hugolpz/audio-cmn):
+- s/: âm tiết có thanh, giọng Chen Wang.
+- w/: từ HSK 2000, giọng Yue Tan (dự án Shtooka, http://shtooka.net).
+Biên tập, nén mp3: Hugo Lopez (PLIDAM, INALCO).

@@ -1,0 +1,1 @@
+var e=e=>e.tk.map(e=>e[0]).join(``),t=/^[“‘（《]/;function n(e){let n=[],r=[];return e.forEach((e,i)=>{e.length===1&&t.test(e[0])?r.push(i):e.length===1&&n.length&&!r.length?n[n.length-1].push(i):(n.push([...r,i]),r=[])}),r.length&&n.push(r),n}export{e as n,n as t};

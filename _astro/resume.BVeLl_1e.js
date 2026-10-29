@@ -1,0 +1,1 @@
+import{n as e,r as t}from"./settings.DSiBMx2v.js";async function n(n){try{let r=await e(`lastPractice`),i={...n,at:Date.now()};await t(`lastPractice`,i),(!r||r.label!==n.label||r.url!==n.url)&&await t(`lastPracticeDismissed`,!1)}catch{}}export{n as t};

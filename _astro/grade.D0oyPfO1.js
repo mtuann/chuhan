@@ -1,0 +1,1 @@
+function e(e,t,n){return n?`again`:e===0?`good`:e<=Math.max(2,Math.floor(.2*t))?`hard`:`again`}var t={good:`Nhớ`,hard:`Khó`,again:`Quên`};export{e as n,t};
