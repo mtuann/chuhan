@@ -85,6 +85,11 @@ const scope = url();
       )
     }
     {!focus && <UpdateBanner />}
+    <script>
+      // đếm lượt truy cập: ảnh của MapMyVisitors tải ngầm, mỗi phiên một lần, chỉ trên site thật (xem src/lib/visit.ts)
+      import { countVisit } from '../lib/visit';
+      countVisit();
+    </script>
     {
       swEnabled && (
         <script is:inline define:vars={{ swUrl, scope }}>
