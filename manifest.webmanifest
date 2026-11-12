@@ -1,4 +1,5 @@
 {
+  "id": "/chuhan/",
   "name": "Chữ Hán",
   "short_name": "Chữ Hán",
   "description": "Đọc, viết, gõ chữ Hán cho người Việt: pinyin theo ngữ cảnh, màu thanh điệu, âm Hán Việt, nét chữ.",
@@ -8,6 +9,36 @@
   "display": "standalone",
   "background_color": "#fcfcfb",
   "theme_color": "#fcfcfb",
+  "categories": [
+    "education",
+    "books"
+  ],
+  "shortcuts": [
+    {
+      "name": "Đọc",
+      "short_name": "Đọc",
+      "description": "Dán một đoạn tiếng Trung để đọc",
+      "url": "/chuhan/"
+    },
+    {
+      "name": "Tập viết",
+      "short_name": "Viết",
+      "description": "Tập viết chữ Hán theo cấp HSK",
+      "url": "/chuhan/viet/"
+    },
+    {
+      "name": "Gõ chữ",
+      "short_name": "Gõ",
+      "description": "Luyện gõ pinyin",
+      "url": "/chuhan/go/"
+    },
+    {
+      "name": "Tra từ",
+      "short_name": "Tra",
+      "description": "Tra chữ Hán, pinyin, Hán Việt",
+      "url": "/chuhan/tra/"
+    }
+  ],
   "icons": [
     {
       "src": "/chuhan/icons/icon-192.png",
