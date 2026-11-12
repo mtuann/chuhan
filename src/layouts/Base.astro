@@ -75,10 +75,17 @@ const scope = url();
               <slot />
             </main>
             <footer class="mx-auto w-full max-w-2xl px-4 pb-28 lg:pb-12" data-print-hide>
-              <nav aria-label="Liên hệ" class="mt-12 flex flex-wrap justify-center border-t border-line pt-3 text-xs text-muted">
-                <a class="inline-flex min-h-11 items-center px-2 hover:text-ink hover:underline" href={url('gioi-thieu/#gop-y')}>Góp ý</a>
-                <a class="inline-flex min-h-11 items-center px-2 hover:text-ink hover:underline" href={url('gioi-thieu/#ung-ho')}>Ủng hộ</a>
-              </nav>
+              <div class="mt-12 border-t border-line pt-4 text-center text-xs text-muted">
+                <p>
+                  Làm bởi <span lang="en">· Made by</span>{' '}
+                  <a class="font-semibold text-ink hover:underline" href={url('gioi-thieu/#ve-chung-minh')}>Nguyễn Minh Tuấn &amp; Trần Thị Trúc Vy</a>
+                </p>
+                <nav aria-label="Liên hệ" class="mt-1 flex flex-wrap justify-center">
+                  <a class="inline-flex min-h-11 items-center px-2 hover:text-ink hover:underline" href={url('gioi-thieu/#gop-y')}>Góp ý</a>
+                  <span aria-hidden="true" class="inline-flex items-center">·</span>
+                  <a class="inline-flex min-h-11 items-center px-2 hover:text-ink hover:underline" href={url('gioi-thieu/#ung-ho')}>Ủng hộ</a>
+                </nav>
+              </div>
             </footer>
           </div>
         </div>
