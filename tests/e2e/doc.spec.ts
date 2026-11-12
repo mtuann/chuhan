@@ -9,7 +9,7 @@ const SENT = '明天下午三点在学校门口见，别迟到！';
 
 test('dán một câu: chạm 迟到 → nghĩa, Hán Việt; đánh dấu Đang học, tải lại vẫn nhớ; Đã biết thì ẩn pinyin', async ({ page }) => {
   await page.goto(BASE);
-  await expect(page.getByRole('heading', { level: 1, name: 'Đọc' })).toBeVisible({ timeout: 15_000 });
+  await expect(page.getByRole('heading', { level: 1, name: 'Dán tiếng Trung, đọc hiểu bằng tiếng Việt' })).toBeVisible({ timeout: 15_000 });
   await page.getByRole('textbox', { name: 'Văn bản tiếng Trung' }).fill(SENT);
   await page.getByRole('button', { name: 'Đọc', exact: true }).click();
   await expect(page.getByText('Bạn đã biết 0/10 từ (0%)')).toBeVisible({ timeout: 30_000 });

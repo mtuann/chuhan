@@ -1,0 +1,132 @@
+---
+/**
+ * Khối mở đầu của trang Đọc: một câu đã chú giải sẵn (pinyin màu thanh trên, Hán Việt dưới, một từ đang được tra) để
+ * người mới vào thấy ngay app làm gì. HTML tĩnh, không JS: hiện ngay cả trước khi PasteApp tải xong.
+ * PasteApp ẩn khối này khi chuyển sang màn đọc (id="doc-hero").
+ */
+interface Tok {
+  /** chữ Hán */
+  h: string;
+  /** các âm tiết pinyin kèm thanh (1–5) */
+  p?: [string, number][];
+  /** âm Hán Việt */
+  hv?: string;
+  /** từ đang được "tra" trong ví dụ */
+  on?: boolean;
+}
+const TOKS: Tok[] = [
+  { h: '我', p: [['wǒ', 3]], hv: 'ngã' },
+  { h: '在', p: [['zài', 4]], hv: 'tại' },
+  { h: '银行', p: [['yín', 2], ['háng', 2]], hv: 'ngân hàng', on: true },
+  { h: '工作', p: [['gōng', 1], ['zuò', 4]], hv: 'công tác' },
+  { h: '。' },
+];
+---
+
+<section id="doc-hero" class="hero mb-6" aria-labelledby="hero-title">
+  <h1 id="hero-title" class="text-2xl font-semibold text-balance">Dán tiếng Trung, đọc hiểu bằng tiếng Việt</h1>
+  <p class="mt-1 text-muted">Pinyin theo ngữ cảnh, màu thanh điệu, âm Hán Việt dưới từng từ. Chạm vào từ để tra.</p>
+
+  <figure class="mt-4 rounded-2xl border border-line bg-card px-3 pt-4 pb-3 sm:px-5">
+    <p class="flex flex-wrap items-end justify-center gap-x-1.5 gap-y-2" lang="zh-CN">
+      <span class="sr-only">我在银行工作。 <span lang="vi">(Tôi làm ở ngân hàng.)</span></span>
+      {
+        TOKS.map((t, i) => (
+          <span class:list={['tok', t.on && 'on']} style={`--i:${i}`} aria-hidden="true">
+            <span class="py text-[0.8rem]" lang="zh-Latn-pinyin">
+              {t.p ? t.p.map(([s, tone]) => <span class={`text-t${tone}`}>{s}</span>) : ' '}
+            </span>
+            <span class="han text-3xl leading-tight sm:text-4xl">{t.h}</span>
+            <span class="hv text-[0.75rem] text-muted" lang="vi">
+              {t.hv ?? ' '}
+            </span>
+          </span>
+        ))
+      }
+    </p>
+    <figcaption class="note mx-auto mt-3 max-w-sm rounded-xl bg-accent-soft px-3 py-2 text-sm">
+      <span class="han font-semibold" lang="zh-CN">银行</span>{' '}
+      <span lang="zh-Latn-pinyin"><span class="text-t2">yín</span><span class="text-t2">háng</span></span>{' '}
+      · <b>ngân hàng</b>, nhà băng
+      <span class="mt-0.5 block text-xs text-muted">
+        <span class="han" lang="zh-CN">行</span> ở đây đọc <b lang="zh-Latn-pinyin">háng</b>; trong{' '}
+        <span class="han" lang="zh-CN">行走</span> đọc <b lang="zh-Latn-pinyin">xíng</b>. App đoán theo ngữ cảnh.
+      </span>
+    </figcaption>
+  </figure>
+</section>
+
+<script is:inline>
+  // mở sẵn một đoạn (?t=, ?doan=): vào thẳng màn đọc, không chớp khối mở đầu
+  if (/[?&](t|doan)=/.test(location.search)) document.getElementById('doc-hero').hidden = true;
+</script>
+
+<style>
+  .tok {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 0.5rem;
+    padding: 0 0.15rem;
+  }
+  .tok.on {
+    background: var(--accent-soft);
+    box-shadow: inset 0 -2px 0 var(--accent);
+  }
+  .py,
+  .hv {
+    display: block;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+  /* chữ hiện trước, rồi pinyin rơi xuống và Hán Việt trồi lên, lần lượt từng từ; cuối cùng là ô tra từ */
+  .tok > .han {
+    animation: hero-in 0.5s both;
+    animation-delay: calc(var(--i) * 70ms);
+  }
+  .py {
+    animation: hero-down 0.45s both;
+    animation-delay: calc(450ms + var(--i) * 90ms);
+  }
+  .hv {
+    animation: hero-up 0.45s both;
+    animation-delay: calc(650ms + var(--i) * 90ms);
+  }
+  .tok.on {
+    animation: hero-mark 0.4s both 1.5s;
+  }
+  .note {
+    animation: hero-up 0.5s both 1.7s;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .tok,
+    .tok > *,
+    .note {
+      animation: none !important;
+    }
+  }
+  @keyframes hero-in {
+    from {
+      opacity: 0;
+      transform: scale(0.92);
+    }
+  }
+  @keyframes hero-down {
+    from {
+      opacity: 0;
+      transform: translateY(-6px);
+    }
+  }
+  @keyframes hero-up {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+  }
+  @keyframes hero-mark {
+    from {
+      background: transparent;
+      box-shadow: inset 0 0 0 var(--accent);
+    }
+  }
+</style>

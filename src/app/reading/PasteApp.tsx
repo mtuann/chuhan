@@ -22,6 +22,14 @@ const MAX_CHARS = 5000;
 const HISTORY = 10;
 const EXAMPLE = '明天下午三点在学校门口见，别迟到！';
 
+/** Đoạn mẫu: chạm là đọc ngay. */
+const SAMPLES: { label: string; text: string }[] = [
+  { label: 'Tin nhắn', text: EXAMPLE },
+  { label: 'Thực đơn', text: '牛肉面 25元\n饺子（十个） 18元\n豆浆 5元\n今天的汤是西红柿鸡蛋汤。' },
+  { label: 'Biển báo', text: '请勿吸烟。出口在左边，洗手间在二楼。' },
+  { label: 'Lời chúc', text: '祝你生日快乐！新年快乐，万事如意，身体健康！' },
+];
+
 interface Saved {
   text: string;
   at: number;
@@ -112,6 +120,13 @@ export default function PasteApp() {
     setDoc({ ...doc, toks });
   };
 
+  // khối mở đầu tĩnh trên trang (src/components/ReadHero.astro): chỉ hiện ở màn nhập
+  const inputScreen = editing || !doc;
+  useEffect(() => {
+    const hero = document.getElementById('doc-hero');
+    if (hero) hero.hidden = !inputScreen;
+  }, [inputScreen]);
+
   const tok = doc && sheet !== null ? doc.toks[sheet] : null;
   const closeSheet = useCallback(() => setSheet(null), []);
   // (mọi hook phải gọi trước lệnh `return` sớm của màn nhập, nếu không React báo lỗi #310)
@@ -129,17 +144,37 @@ export default function PasteApp() {
 
   // ---------------------------------------------------------------- màn nhập
 
-  if (editing || !doc)
+  if (inputScreen)
     return (
       <div className="space-y-4">
         <ResumeBar />
-        <h1 className="text-2xl font-semibold">Đọc</h1>
-        <p className="-mt-2 text-muted">
-          Dán hoặc gõ một đoạn tiếng Trung bất kỳ: tin nhắn, thực đơn, đoạn sách, phụ đề. App tách từ, ghi pinyin theo ngữ cảnh, tô màu thanh,
-          gợi ý Hán Việt; chạm vào từ để xem nghĩa. Văn bản chỉ nằm trên máy bạn.
-        </p>
+        <section aria-labelledby="doan-mau" className="space-y-2">
+          <h2 id="doan-mau" className="text-sm font-semibold text-muted">
+            Thử ngay với một đoạn mẫu
+          </h2>
+          <div className="flex flex-wrap gap-2">
+            {SAMPLES.map((s) => (
+              <button
+                key={s.label}
+                type="button"
+                disabled={busy}
+                className="inline-flex min-h-11 items-center gap-2 rounded-full border border-line bg-card px-4 text-sm font-semibold transition hover:border-accent hover:bg-accent-soft active:scale-[.97] disabled:opacity-50"
+                onClick={() => {
+                  setText(s.text);
+                  void read(s.text);
+                }}
+              >
+                {s.label}
+                <span className="han font-normal text-muted" lang="zh-CN" aria-hidden="true">
+                  {s.text.slice(0, 3)}
+                </span>
+              </button>
+            ))}
+          </div>
+        </section>
         <label className="block">
-          <span className="text-sm font-semibold">Văn bản tiếng Trung</span>
+          <span className="text-sm font-semibold">Hoặc dán văn bản tiếng Trung của bạn</span>
+          <span className="block text-xs text-muted">Tin nhắn, thực đơn, đoạn sách, phụ đề… Văn bản chỉ nằm trên máy bạn.</span>
           <textarea
             className="mt-1 block w-full rounded-xl border border-line bg-card p-3 text-xl"
             lang="zh-CN"
@@ -166,11 +201,6 @@ export default function PasteApp() {
               }
             >
               Dán từ bộ nhớ tạm
-            </button>
-          )}
-          {!text && (
-            <button type="button" className="text-sm text-muted underline" onClick={() => setText(EXAMPLE)}>
-              Thử một câu ví dụ
             </button>
           )}
           {doc && (
