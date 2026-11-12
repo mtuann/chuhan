@@ -13,7 +13,7 @@ import { Han, Pinyin, SpeakButtons, SpeakerIcon, TONE_CLASS, btn, colorizePinyin
 /** Pinyin nhỏ trên một từ, có màu thanh. */
 function TokenPinyin({ p }: { p: string }) {
   return (
-    <span lang="zh-Latn-pinyin" className="block text-center text-[0.7rem] leading-tight whitespace-nowrap">
+    <span lang="zh-Latn-pinyin" className="block text-center text-[0.78rem] leading-tight whitespace-nowrap">
       {colorizePinyin(p).map((x, i) => (
         <span key={i} className={x.tone ? TONE_CLASS[x.tone] : undefined}>
           {x.text}
@@ -184,12 +184,12 @@ export function WordSheet({
   if (!wordId) return null;
   const simp = wordId.slice(0, wordId.indexOf('_'));
   return (
-    <div className="fixed inset-0 z-40 flex items-end justify-center bg-black/40 sm:items-center" onClick={onClose}>
+    <div className="anim-fade fixed inset-0 z-40 flex items-end justify-center bg-black/40 sm:items-center" onClick={onClose}>
       <div
         role="dialog"
         aria-modal="true"
         aria-label="Tra từ"
-        className="w-full max-w-md rounded-t-2xl border border-line bg-card p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] shadow-lg sm:rounded-2xl"
+        className="anim-sheet w-full max-w-md rounded-t-2xl border border-line bg-card p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] shadow-lg sm:rounded-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-start justify-between gap-3">

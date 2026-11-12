@@ -168,7 +168,23 @@ test.describe('Xem cách viết', () => {
     await page.getByRole('checkbox', { name: 'Hiện âm Hán Việt dưới chữ' }).check();
     await expect(page.getByText('ngân', { exact: true })).toBeVisible();
     await expect(page.getByText('hàng', { exact: true })).toBeVisible();
-    // tải lại: nhớ lựa chọn
+    // tải lại: nhớ lựa chọn (chờ lựa chọn ghi xong vào IndexedDB, nếu không tải lại có thể đến trước lần ghi)
+    await expect
+      .poll(() =>
+        page.evaluate(
+          () =>
+            new Promise((ok) => {
+              const req = indexedDB.open('chuhan');
+              req.onerror = () => ok(null);
+              req.onsuccess = () => {
+                const get = req.result.transaction('settings').objectStore('settings').get('vietCau');
+                get.onsuccess = () => ok(get.result?.value?.hv ?? null);
+                get.onerror = () => ok(null);
+              };
+            }),
+        ),
+      )
+      .toBe(true);
     await page.reload();
     await expect(page.getByRole('radio', { name: 'Chữ chưa biết', checked: true })).toBeVisible({ timeout: 15_000 });
     await expect(page.getByText('ngân', { exact: true })).toBeVisible({ timeout: 30_000 });

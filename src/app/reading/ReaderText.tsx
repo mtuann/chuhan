@@ -26,7 +26,7 @@ export interface ReaderOpts {
 
 function TokPinyin({ p, alt }: { p: string; alt: boolean }) {
   return (
-    <span lang="zh-Latn-pinyin" className="block text-center text-[0.7rem] leading-tight whitespace-nowrap">
+    <span lang="zh-Latn-pinyin" className="block text-center text-[0.78rem] leading-tight whitespace-nowrap">
       {colorizePinyin(p).map((x, k) => (
         <span key={k} className={x.tone ? TONE_CLASS[x.tone] : undefined}>
           {x.text}
@@ -65,9 +65,9 @@ function Tok({ x, o }: { x: PlacedTok; o: ReaderOpts }) {
   if (t.kind === 'punct' || t.kind === 'other')
     return (
       <span className="inline-flex flex-col items-center">
-        {o.pinyin !== 'off' && <span className="block text-[0.7rem] leading-tight">&nbsp;</span>}
+        {o.pinyin !== 'off' && <span className="block text-[0.78rem] leading-tight">&nbsp;</span>}
         <span className={t.kind === 'other' ? 'px-0.5' : 'han'}>{t.t}</span>
-        {o.hv && <span className="block text-[0.65rem] leading-tight">&nbsp;</span>}
+        {o.hv && <span className="block text-[0.72rem] leading-tight">&nbsp;</span>}
       </span>
     );
   const known = o.known(t);
@@ -85,13 +85,13 @@ function Tok({ x, o }: { x: PlacedTok; o: ReaderOpts }) {
       aria-label={label}
       data-i={x.i}
     >
-      {o.pinyin !== 'off' && (showP ? <TokPinyin p={p} alt={t.kind !== 'char' && t.alt} /> : <span className="block text-[0.7rem] leading-tight">&nbsp;</span>)}
+      {o.pinyin !== 'off' && (showP ? <TokPinyin p={p} alt={t.kind !== 'char' && t.alt} /> : <span className="block text-[0.78rem] leading-tight">&nbsp;</span>)}
       <span
         className={`han ${!known && !proper ? 'underline decoration-dotted decoration-2 underline-offset-4' : ''}`}
       >
         {t.t}
       </span>
-      {o.hv && <span lang="vi" className="block text-center text-[0.65rem] leading-tight whitespace-nowrap text-muted">{hv || ' '}</span>}
+      {o.hv && <span lang="vi" className="block text-center text-[0.72rem] leading-tight whitespace-nowrap text-muted">{hv || ' '}</span>}
     </button>
   );
 }
@@ -140,7 +140,7 @@ export function ReaderText({ toks, o, className = '' }: { toks: ReadTok[]; o: Re
     return paras
       .filter((para) => para.length)
       .map((para, pi) => (
-        <p key={pi} className="flex flex-wrap items-end gap-x-0.5 gap-y-2 text-2xl leading-normal">
+        <p key={pi} className="flex flex-wrap items-end gap-x-0.5 gap-y-3 text-2xl leading-normal">
           {splitSentences(para).map((sent) => {
             n++;
             const text = sent.map((x) => tokText(x.tok)).join('').trim();

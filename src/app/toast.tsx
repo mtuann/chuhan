@@ -44,7 +44,7 @@ export function ToastHost() {
       {t && (
         <div
           key={t.k}
-          className="pointer-events-auto mx-auto max-w-md rounded-2xl bg-ink px-4 py-2 text-sm text-paper shadow-lg"
+          className="anim-toast pointer-events-auto mx-auto max-w-md rounded-2xl bg-ink px-4 py-2 text-sm text-paper shadow-lg"
           onMouseEnter={hold}
           onMouseLeave={() => hide(3000)}
           onFocus={hold}

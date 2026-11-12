@@ -104,9 +104,9 @@ export function ErrorBox({ children }: { children: ReactNode }) {
 }
 
 export const btn =
-  'inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border border-line px-4 text-sm font-semibold hover:border-accent focus-visible:outline-2 focus-visible:outline-accent disabled:opacity-50';
+  'inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border border-line px-4 text-sm font-semibold transition hover:border-accent hover:bg-accent-soft/40 active:scale-[.97] disabled:active:scale-100 focus-visible:outline-2 focus-visible:outline-accent disabled:opacity-50';
 export const btnPrimary =
-  'inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-accent px-4 text-sm font-semibold text-accent-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent disabled:opacity-50';
+  'inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-accent px-4 text-sm font-semibold text-accent-ink shadow-sm transition hover:brightness-110 active:scale-[.97] disabled:shadow-none disabled:hover:brightness-100 disabled:active:scale-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent disabled:opacity-50';
 
 export function SpeakerIcon() {
   return (

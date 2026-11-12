@@ -166,7 +166,7 @@ test('gõ theo đoạn văn: dán, chấm khi gõ, sửa chỗ sai và chỗ só
   const read = page.getByRole('link', { name: 'Đọc đoạn này' });
   await expect(read).toHaveAttribute('href', /chuhan\/\?doan=[a-z0-9]+$/);
   await read.click();
-  await expect(page.getByRole('button', { name: '✎ Sửa văn bản' })).toBeVisible({ timeout: 30_000 });
+  await expect(page.getByRole('button', { name: 'Sửa', exact: true })).toBeVisible({ timeout: 30_000 });
   await expect(page.getByRole('button', { name: /^公园 gōngyuán/ })).toBeVisible();
   await page.goto(BASE + 'go/?che-do=doan');
   await expect(page.getByRole('region', { name: 'Đoạn văn của bạn' })).toContainText('Đã gõ xong 2 câu', { timeout: 15_000 });
@@ -189,7 +189,7 @@ test('gõ theo đoạn văn: lời nói trải qua hai câu, phím " ở câu sa
 
 test('Đọc: nút gõ đoạn đang đọc', async ({ page }) => {
   await page.goto(BASE + '?t=' + encodeURIComponent('我在学校。他很好。'));
-  await page.getByRole('button', { name: '⌨ Gõ đoạn này' }).click({ timeout: 30_000 });
+  await page.getByRole('button', { name: 'Gõ đoạn này' }).click({ timeout: 30_000 });
   await expect(page.getByRole('region', { name: 'Câu 1/2' })).toBeVisible({ timeout: 30_000 });
   await expect.poll(() => page.getByTestId('cau-dang-go').locator('[data-st]').allTextContents().then((x) => x.join(''))).toBe('我在学校。');
 });

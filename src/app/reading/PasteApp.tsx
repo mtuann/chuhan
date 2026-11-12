@@ -22,6 +22,21 @@ const MAX_CHARS = 5000;
 const HISTORY = 10;
 const EXAMPLE = '明天下午三点在学校门口见，别迟到！';
 
+/** Icon nét (cùng kiểu thanh tab, src/components/TabBar.astro). */
+const ICON = {
+  edit: 'M4 20h4L19 9l-4-4L4 16zM13.5 6.5l4 4',
+  type: 'M3 6h18v12H3zM7 10h.01M11 10h.01M15 10h.01M17 14H7',
+  // ô 田字格
+  write: 'M4 4h16v16H4zM12 4v16M4 12h16',
+};
+function Icon({ d }: { d: string }) {
+  return (
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d={d} />
+    </svg>
+  );
+}
+
 /** Đoạn mẫu: chạm là đọc ngay. */
 const SAMPLES: { label: string; text: string }[] = [
   { label: 'Tin nhắn', text: EXAMPLE },
@@ -258,24 +273,34 @@ export default function PasteApp() {
   const pct = cov && cov.total ? Math.round((100 * cov.known) / cov.total) : 0;
   return (
     <div className="space-y-4">
-      <div className="flex flex-wrap items-center gap-2">
-        <button type="button" className={btn} onClick={() => setEditing(true)}>
-          ✎ Sửa văn bản
+      <div className="flex flex-wrap items-center gap-1.5">
+        <button type="button" className={`${btn} !gap-1.5 !px-2.5`} onClick={() => setEditing(true)}>
+          <Icon d={ICON.edit} />
+          Sửa
         </button>
         <SpeakSentence text={doc.text} label="Nghe cả đoạn" slow />
         <button
           type="button"
-          className={btn}
+          className={`${btn} !gap-1.5 !px-2.5`}
+          aria-label="Gõ đoạn này"
+          title="Gõ lại đoạn này bằng bộ gõ pinyin"
           onClick={() =>
             void savePassage(doc.text)
               .then((p) => window.location.assign(url(`go/?che-do=doan&id=${p.id}`)))
               .catch(() => window.location.assign(url('go/?che-do=doan')))
           }
         >
-          ⌨ Gõ đoạn này
+          <Icon d={ICON.type} />
+          Gõ
         </button>
-        <a className={btn} href={url(`viet/cau/?t=${encodeURIComponent(doc.text.slice(0, 200))}`)}>
-          ✎ Xem cách viết
+        <a
+          className={`${btn} !gap-1.5 !px-2.5`}
+          aria-label="Xem cách viết"
+          title="Xem cách viết từng chữ"
+          href={url(`viet/cau/?t=${encodeURIComponent(doc.text.slice(0, 200))}`)}
+        >
+          <Icon d={ICON.write} />
+          Viết
         </a>
       </div>
 

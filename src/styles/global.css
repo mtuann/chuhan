@@ -31,7 +31,7 @@
     --t1: #f25451;
     --t2: #029e72;
     --t3: #0da1de;
-    --t4: #8170f8;
+    --t4: #978bfa; /* 5,5:1 trên --card tối (#8170f8 cũ chỉ 4,2:1) */
     --t5: #9a9890;
     color-scheme: dark;
   }
@@ -89,6 +89,34 @@ body {
 @keyframes ime-caret-blink {
   50% {
     border-left-color: transparent;
+  }
+}
+
+/* Bảng tra từ trượt lên, nền mờ dần, thông báo nhỏ nảy lên (giảm chuyển động thì tắt ở khối dưới). */
+.anim-fade {
+  animation: fade-in 0.18s ease-out;
+}
+.anim-sheet {
+  animation: sheet-up 0.24s cubic-bezier(0.2, 0.9, 0.3, 1.1);
+}
+.anim-toast {
+  animation: toast-in 0.22s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes sheet-up {
+  from {
+    opacity: 0.6;
+    transform: translateY(24px);
+  }
+}
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.97);
   }
 }
 
