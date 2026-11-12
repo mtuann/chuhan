@@ -91,7 +91,7 @@ function Tok({ x, o }: { x: PlacedTok; o: ReaderOpts }) {
       >
         {t.t}
       </span>
-      {o.hv && <span className="block text-center text-[0.65rem] leading-tight whitespace-nowrap text-muted">{hv || ' '}</span>}
+      {o.hv && <span lang="vi" className="block text-center text-[0.65rem] leading-tight whitespace-nowrap text-muted">{hv || ' '}</span>}
     </button>
   );
 }

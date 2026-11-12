@@ -440,7 +440,7 @@ export default function SentenceApp() {
           />
         </button>
         {opts.hv && (
-          <span className="block text-center leading-tight whitespace-nowrap text-muted" style={{ fontSize: hvFont, height: hvRow }}>
+          <span lang="vi" className="block text-center leading-tight whitespace-nowrap text-muted" style={{ fontSize: hvFont, height: hvRow }}>
             {r?.hv ?? ''}
           </span>
         )}

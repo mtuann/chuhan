@@ -71,6 +71,13 @@ body {
   font-family: var(--font-han);
 }
 
+/* Pinyin và Hán Việt nằm trong khối lang="zh-CN": dùng lại font Latinh, vì font Trung (PingFang, YaHei) vẽ sai dấu chồng
+   tiếng Việt (tại → taị, mỗi → môĩ) và dấu thanh pinyin. Chỉ khớp lang đặt rõ trên phần tử, không khớp <html lang="vi">. */
+:lang(zh-Latn),
+[lang='vi'] {
+  font-family: var(--font-sans);
+}
+
 /* Con trỏ của ô gõ tiếng Trung khi nằm giữa các chữ đã gõ: vạch màu nhấp nháy (ô đang được chọn). */
 .ime-caret {
   border-left: 2px solid transparent;
